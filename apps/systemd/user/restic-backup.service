@@ -1,0 +1,10 @@
+[Unit]
+Description=restic backup of DOTFILES_RESTIC_BACKUP_PATHS to all reachable repos
+
+[Service]
+Type=oneshot
+# Be a good citizen on a workstation -- never starve the desktop.
+Nice=10
+IOSchedulingClass=idle
+# Stable path: scripts/user is symlinked to ~/.local/bin/dotfiles by the linker.
+ExecStart=%h/.local/bin/dotfiles/restic-backup.sh

@@ -1,0 +1,3 @@
+# Name      | Git_URL                                      | Strategy        | Destination
+Catppuccin  | https://github.com/catppuccin/lxterminal.git | flat-collection | .config/lxterminal/themes
+Dracula     | https://github.com/dracula/lxterminal.git    | flat-collection | .config/lxterminal/themes

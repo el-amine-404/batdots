@@ -1,0 +1,39 @@
+name: pr-title
+
+# Enforce Conventional Commits on PR titles. With squash-merge (the
+# recommended setting), the PR title becomes the commit subject on main --
+# so this keeps `main` history consistent and machine-parseable.
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  pull-requests: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          types: |
+            feat
+            fix
+            docs
+            style
+            refactor
+            perf
+            test
+            build
+            ci
+            chore
+            revert
+          # Don't require a scope, but if present it must be lowercase.
+          requireScope: false
+          subjectPattern: ^(?![A-Z]).+$
+          subjectPatternError: |
+            The subject "{subject}" must not start with an uppercase letter.
+            Conventional Commit example:  feat(source): add bitbucket adapter

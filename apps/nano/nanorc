@@ -1,0 +1,38 @@
+#  _ __   __ _ _ __   ___
+# | '_ \ / _` | '_ \ / _ \
+# | | | | (_| | | | | (_) |
+# |_| |_|\__,_|_| |_|\___/
+
+## Security & Privacy
+unset historylog      # Prevents saving a log of recently edited files (~/.nano_history)
+set backup            # Creates a 'filename~' backup file when saving (safety first)
+set noconvert         # Prevents automatic conversion of line endings (don't mess with CRLF/LF)
+
+## Developer Experience
+set linenumbers      # Displays line numbers on the left (essential for debugging)
+set mouse            # Enables clicking to position cursor and scrolling with the wheel
+set tabsize 4         # Sets the width of a tab character to 4 spaces (Java standard)
+set tabstospaces     # Converts all tab presses into spaces (ensures consistent code style)
+set softwrap         # Wraps long lines visually instead of letting them run off-screen
+set atblanks         # Wraps lines only at whitespace (prevents breaking words in half)
+set autoindent       # Indents new lines to the same level as the previous line
+set indicator        # Shows a vertical bar on the right indicating position in the file
+set constantshow     # Permanently displays line/column numbers in the status bar
+set emptyline        # Adds a blank line below the title bar for better visual breathing room
+set nohelp           # Hides the keyboard shortcut list at the bottom to maximize screen space
+set zap              # Allows Backspace/Delete to remove highlighted text in one go
+
+## Look & Feel
+set titlecolor brightwhite,blue    # Color for the top bar (filename and version)
+set statuscolor brightwhite,green  # Color for the status bar messages at the bottom
+set selectedcolor white,magenta    # Color for highlighted/selected text blocks
+set stripecolor yellow             # Color for a vertical guide line (if set fill is used)
+set numbercolor cyan               # Color for the line numbers on the left
+set errorcolor brightwhite,red     # Color for alert/error messages in the status bar
+
+## Navigation (The "Minibar" Tweak)
+# Replaces the bulky title bar with a sleek, one-line status bar.
+set minibar          # Merges filename, state, and position into a compact footer
+
+## Syntax Highlighting (Include our local collection)
+include "~/.config/nano/syntax/*.nanorc"

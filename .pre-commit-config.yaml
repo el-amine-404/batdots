@@ -1,0 +1,104 @@
+# Run on every commit:  pre-commit install
+# Run on the whole tree: pre-commit run --all-files
+# Update hook versions:  pre-commit autoupdate
+
+minimum_pre_commit_version: "3.5.0"
+
+repos:
+  # -- General hygiene ---------------------------------------------------------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+        exclude: '\.(conf|txt|md)$'
+      - id: end-of-file-fixer
+      - id: check-merge-conflict
+      - id: check-added-large-files
+        args: ["--maxkb=500"]
+      - id: check-executables-have-shebangs
+      - id: check-shebang-scripts-are-executable
+      - id: check-yaml
+      - id: mixed-line-ending
+        args: ["--fix=lf"]
+
+  # -- Shell linting -----------------------------------------------------------
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.10.0
+    hooks:
+      - id: shellcheck
+        args: ["--severity=warning"]
+
+  # -- Shell formatting --------------------------------------------------------
+  - repo: https://github.com/scop/pre-commit-shfmt
+    rev: v3.10.0-2
+    hooks:
+      - id: shfmt
+        # -i 2  : 2-space indent
+        # -ci   : indent switch cases
+        # -bn   : binary ops at line start
+        # -sr   : redirect operators followed by space
+        args: ["-i", "2", "-ci", "-bn", "-sr", "-w"]
+
+  # -- Markdown & Prose --------------------------------------------------------
+  - repo: https://github.com/igorshubovych/markdownlint-cli
+    rev: v0.43.0
+    hooks:
+      - id: markdownlint
+        args: ["--config", ".markdownlint.json"]
+
+  - repo: https://github.com/pre-commit/mirrors-prettier
+    rev: v4.0.0-alpha.8
+    hooks:
+      - id: prettier
+        # Prose wrap always (80 chars), 2-space indent.
+        # --no-cache to avoid creating node_modules/.cache
+        args: ["--prose-wrap", "always", "--print-width", "80", "--no-cache"]
+        types_or: [markdown, json, yaml, css]
+
+  - repo: local
+    hooks:
+      - id: lychee
+        name: check local links
+        entry:
+          docker run --rm -v ".:/init" lycheeverse/lychee --offline
+          --no-progress --config /init/lychee.toml /init
+        language: system
+        pass_filenames: false
+        files: \.md$
+
+  # -- Secret scanning ---------------------------------------------------------
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks
+
+  # -- Conventional Commits (commit-msg stage) ---------------------------------
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v3.6.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        # Allowed types -- keep this small and explicit.
+        args:
+          - feat
+          - fix
+          - docs
+          - style
+          - refactor
+          - perf
+          - test
+          - build
+          - ci
+          - chore
+          - revert
+
+  # -- Project-local hooks -----------------------------------------------------
+  - repo: local
+    hooks:
+      - id: format-config
+        name: format config/package-managers/*.conf
+        entry: scripts/maintenance/format-config.sh
+        language: script
+        # Only run when one of the data files actually changes.
+        files: ^config/package-managers/.*\.conf$
+        pass_filenames: false

@@ -1,0 +1,53 @@
+# ~/.xxkbrc
+# the best way to learn the config is the man page: man xxkb
+# additional sources:
+# https://gist.github.com/joksim/92db083ea50d5d0b109f
+# https://bbs.archlinux.org/viewtopic.php?pid=483528#p483528
+
+# flags -- xxkb does not expand ~ or env vars in resource paths.
+# The default `/usr/share/xxkb/` works on every distro that ships xxkb;
+# the symlink set lays down personal flags under ~/.config/xxkb/flags as
+# a fallback. Pick whichever exists at startup.
+XXkb.image.path: /usr/share/xxkb/:/usr/local/share/xxkb/
+
+XXkb.mainwindow.enable: yes
+XXkb.mainwindow.type: tray
+XXkb.mainwindow.in_tray: true
+XXkb.mainwindow.border.width: 0
+XXkb.mainwindow.border.color: white
+
+XXkb.mainwindow.appicon: yes
+XXkb.mainwindow.geometry: 15x15+0+0
+XXkb.mainwindow.image.1: usa15.xpm
+XXkb.mainwindow.image.2: fr15.xpm
+XXkb.mainwindow.image.3:
+XXkb.mainwindow.image.4:
+
+XXkb.mainwindow.label.enable: yes
+XXkb.mainwindow.label.text.1: US
+XXkb.mainwindow.label.text.2: FR
+XXkb.mainwindow.label.background: #000000
+XXkb.mainwindow.label.foreground: gray
+XXkb.mainwindow.label.font: -misc-*-r-*-13-*
+
+XXkb.controls.focusout: no
+XXkb.controls.two_state: no
+XXkb.controls.add_when_start: no
+XXkb.controls.add_when_create: no
+XXkb.controls.add_when_change: no
+
+XXkb.group.alt: 2
+XXkb.group.base: 1
+
+XXkb.button.enable: no
+XXkb.button.border.width: 0
+XXkb.button.border.color: #777777
+XXkb.button.geometry: 15x12+50+0
+XXkb.button.label.enable: true
+XXkb.button.label.font: -misc-*-r-*-13-*
+XXkb.button.label.background: #222222
+XXkb.button.label.foreground: gray
+XXkb.button.label.text.1: us
+XXkb.button.label.text.2: mk
+
+XXkb.bell.enable: no

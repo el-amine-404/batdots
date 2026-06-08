@@ -1,0 +1,9 @@
+# Development languages and environments.
+
+# python
+lang_python3
+lang_pip3
+
+# node/js (mostly handled by fnm, but global npm packages can be listed here)
+
+# rust (handled by rustup, but libs for rust compilation live in build.txt)

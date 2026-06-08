@@ -1,0 +1,56 @@
+// Place your key bindings in this file to override the default key bindings.
+//                                             __
+//     ____  ___  ______________  ____  ____ _/ /
+//    / __ \/ _ \/ ___/ ___/ __ \/ __ \/ __ `/ /
+//   / /_/ /  __/ /  (__  ) /_/ / / / / /_/ / /
+//  / .___/\___/_/  /____/\____/_/ /_/\__,_/_/
+// /_/
+//     __              __    _           ___
+//    / /_____  __  __/ /_  (_)___  ____/ (_)___  ____ ______
+//   / //_/ _ \/ / / / __ \/ / __ \/ __  / / __ \/ __ `/ ___/
+//  / ,< /  __/ /_/ / /_/ / / / / / /_/ / / / / / /_/ (__  )
+// /_/|_|\___/\__, /_.___/_/_/ /_/\__,_/_/_/ /_/\__, /____/
+//           /____/                            /____/
+//
+//
+// Quick tips:
+//   - restore default keybindings by deleating this entries (the file only contains [])
+[
+  {
+    "key": "shift+alt+u",
+    "command": "editor.action.transformToUppercase"
+  },
+  {
+    "key": "shift+alt+l",
+    "command": "editor.action.transformToLowercase"
+  },
+  {
+    "key": "ctrl+alt+p",
+    "command": "codesnap.start"
+  },
+  {
+    "key": "ctrl+shift+c",
+    "command": "workbench.action.terminal.newWithCwd",
+    "args": {
+      "cwd": "${fileDirname}"
+    }
+  },
+  {
+    "key": "shift+alt+w",
+    "command": "rewrap.rewrapComment",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "alt+q",
+    "command": "-rewrap.rewrapComment",
+    "when": "editorTextFocus"
+  },
+  {
+    "key": "shift+enter",
+    "command": "workbench.action.terminal.sendSequence",
+    "args": {
+      "text": "\u001b\r"
+    },
+    "when": "terminalFocus"
+  }
+]

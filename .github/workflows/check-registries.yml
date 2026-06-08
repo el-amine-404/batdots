@@ -1,0 +1,44 @@
+name: check-registries
+
+# Probe every URL in the repo's registry files (apps/**/*.txt, config/**/*.txt)
+# on a schedule. Dead links can't be auto-fixed, so on failure we open/refresh
+# an issue with the report for a human to triage.
+
+on:
+  schedule:
+    # Mondays 07:00 UTC -- after update-versions' daily window, low traffic.
+    - cron: "0 7 * * 1"
+  workflow_dispatch: # Lets you trigger manually from the Actions tab.
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Probe registry URLs
+        id: probe
+        env:
+          NO_COLOR: "1"
+        run: |
+          set +e
+          ./scripts/maintenance/check-registries.sh | tee registry-report.txt
+          echo "status=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
+
+      - name: Open issue on dead links
+        if: steps.probe.outputs.status != '0'
+        uses: peter-evans/create-issue-from-file@v5
+        with:
+          title: "Dead registry URLs detected"
+          content-filepath: registry-report.txt
+          labels: |
+            automation
+            bug
+
+      - name: Fail the job if any URL is dead
+        if: steps.probe.outputs.status != '0'
+        run: exit 1

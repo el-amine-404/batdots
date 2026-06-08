@@ -1,0 +1,42 @@
+#
+# These things are run when an Openbox X Session is started.
+# You may place a similar script in $HOME/.config/openbox/autostart
+# to run user-specific things.
+#
+
+# If you want to use GNOME config tools...
+#
+#if test -x @libexecdir@/gnome-settings-daemon >/dev/null; then
+#  @libexecdir@/gnome-settings-daemon &
+#elif which gnome-settings-daemon >/dev/null; then
+#  gnome-settings-daemon &
+#fi
+
+# If you want to use XFCE config tools...
+#
+#xfce-mcs-manager &
+
+# Start of personal config ---------------------------------------------------------------
+
+xrandr -s 1920x1080
+(sleep 1s && picom) &
+(sleep 1s && $HOME/.fehbg) &
+# (sleep 1s && feh --bg-fill $HOME/dotfiles/wallpapers/pacman.png) &
+(sleep 1s && plank) &
+(sleep 3s && nm-applet) &
+(sleep 3s && volumeicon) &
+(sleep 3s && cbatticon) &
+(sleep 3s && xxkb) &
+(sleep 3s && copyq) &
+(sleep 3s && sxhkd) &
+
+# start the tint2 pannel
+(sleep 1s && tint2 -c $HOME/.config/tint2/themes/three_bars/tint2rc_clock) &
+(sleep 1s && tint2 -c $HOME/.config/tint2/themes/three_bars/tint2rc_launcher) &
+(sleep 1s && tint2 -c $HOME/.config/tint2/themes/three_bars/tint2rc_systray) &
+
+# Switch keyboard layout using "win + space"
+# source: https://wiki.archlinux.org/title/Xorg/Keyboard_configuration
+(sleep 1s && setxkbmap -model pc105 -layout us,fr -variant , -option grp:win_space_toggle) &
+
+# End of personal config -----------------------------------------------------------------

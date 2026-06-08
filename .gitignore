@@ -1,0 +1,40 @@
+# Build / download artifacts
+*.tar.gz
+*.tar.xz
+*.zip
+build/
+dist/
+
+# Editors / IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# OS / shell ephemera
+.history/
+*.log
+
+# Pre-commit cache
+.cache/
+
+# Project-specific
+# mpv writes playback-resume state here (~/.config/mpv is symlinked from the
+# repo); redirected to ~~state/ in mpv.conf, but ignore it as belt-and-braces.
+apps/mpv/watch_later/
+
+# Local-only overrides (anything you don't want to upstream)
+# Always keep your secrets in local/ or files ending in .local
+local/*
+*.local
+!local/*.example
+
+# Prevent specific local files from being tracked
+apps/ssh/config.local
+apps/ssh/known_hosts.local
+apps/obs-studio/profiles/main/basic.ini
+apps/obs-studio/profiles/main/service.json
+apps/flameshot/flameshot.ini
+apps/vscode/settings.json

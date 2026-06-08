@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Secure Zathura
+Comment=Sandboxed PDF Viewer
+Exec=/usr/bin/firejail --quiet zathura %f
+Icon=zathura
+Terminal=false
+Categories=Office;Viewer;Graphics;
+MimeType=application/pdf;application/x-pdf;application/pdf;application/vnd.pdf;

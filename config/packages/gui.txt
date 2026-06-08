@@ -1,0 +1,57 @@
+# User-facing GUI applications.
+
+# browsers
+chromium
+lynx
+
+# media
+vlc
+mpv
+
+# viewers
+zathura
+sxiv
+feh
+
+# graphics
+gimp
+inkscape
+
+# capture / recording
+flameshot
+obs-studio:flatpak
+normcap:flatpak
+
+# audio
+audacity
+
+# communication
+discord:flatpak
+
+# file management
+nemo
+
+# terminals
+lxterminal
+xterm
+
+# productivity
+qalculate-gtk
+copyq
+parcellite
+gpick
+mousepad
+
+# organization
+yad
+
+# launchers
+rofi
+dmenu
+
+# fun
+figlet
+lolcat
+jp2a
+cmatrix
+sl

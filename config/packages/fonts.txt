@@ -1,0 +1,23 @@
+# Typography and iconography.
+
+# system fonts
+font_noto
+font_noto_cjk
+font_noto_core
+font_noto_emoji
+font_roboto
+font_inter
+font_firacode
+font_cascadia
+font_liberation
+font_ancient
+font_recommended
+
+# microsoft fonts
+font_microsoft
+
+# icons
+font_awesome
+
+# tools
+tool_fontconfig

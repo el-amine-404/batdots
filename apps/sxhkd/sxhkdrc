@@ -1,0 +1,87 @@
+#  ____  _  _  _  _  _  __  ____
+# / ___)( \/ )/ )( \( )/ / (    \
+# \___ \ )  ( ) __ ( )  (   ) D (
+# (____/(_/\_)\_)(_/(_)\_) (____/
+#
+# sxhkd configuration -- UNIFIED (Desktop Agnostic)
+# Reload: super + Escape (or pkill -USR1 -x sxhkd)
+
+# ------------------------------------------------------------------------------
+# SYSTEM & UTILS
+# ------------------------------------------------------------------------------
+
+# Show help notification
+control + shift + q
+    notify-send "Hotkeys" "Defined in ~/.config/sxhkd/sxhkdrc"
+
+# Reload configuration (Soft reload)
+super + Escape
+    pkill -USR1 -x sxhkd; notify-send "sxhkd" "Configuration Reloaded"
+
+# Hard Restart (Complete kill and relaunch)
+control + super + Escape
+    pkill -x sxhkd; nohup sxhkd > /dev/null 2>&1 &; notify-send "sxhkd" "Daemon Restarted"
+
+# ------------------------------------------------------------------------------
+# APPLICATIONS
+# ------------------------------------------------------------------------------
+
+# Terminal (Alacritty)
+control + alt + t
+    alacritty --working-directory "$HOME"
+
+# File Manager (PCManFM)
+super + e
+    pcmanfm
+
+# ------------------------------------------------------------------------------
+# ROFI MENUS (Alt + Shift Pattern)
+# ------------------------------------------------------------------------------
+
+# Rofi Find (drun)
+alt + shift + f
+    rofi -show drun -show-icons
+
+# Rofi Run
+alt + shift + r
+    rofi -show run
+
+# Dotfiles Scripts Menu (The "Everything" Menu)
+alt + shift + d
+    $HOME/.local/bin/dotfiles/rofi-scripts.sh
+
+# Emoji Picker
+alt + shift + e
+    $HOME/.local/bin/dotfiles/rofi-emojie-picker.sh
+
+# ------------------------------------------------------------------------------
+# MEDIA CONTROLS
+# ------------------------------------------------------------------------------
+
+# Volume Control
+XF86Audio{Raise,Lower}Volume
+    $HOME/.local/bin/dotfiles/volume.sh {up,down}
+
+# Mute Speakers
+XF86AudioMute
+    $HOME/.local/bin/dotfiles/volume.sh mute
+
+# Mute Mic
+XF86AudioMicMute
+    $HOME/.local/bin/dotfiles/volume.sh mic-mute
+
+# ------------------------------------------------------------------------------
+# SCREENSHOTS & OCR (Alt + Shift Pattern)
+# ------------------------------------------------------------------------------
+
+# Screenshot (GUI)
+alt + shift + p
+    flameshot gui
+
+# OCR (Normcap)
+alt + shift + c
+    /usr/bin/flatpak run --command=normcap com.github.dynobo.normcap
+
+# Instant Shots (Print Screen variants)
+{_, shift +, alt +, control +, control + shift +, control + alt +}Print
+    $HOME/.local/bin/dotfiles/screenshot.sh {save-full-screen,save-selected-area,save-focused-window,copy-full-screen,copy-selected-area,copy-focused-window}

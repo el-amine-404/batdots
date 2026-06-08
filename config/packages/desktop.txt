@@ -1,0 +1,49 @@
+# Desktop-session essentials (WM, compositor, panels, etc.).
+
+# xorg
+xorg
+xinit
+xinput
+xdotool
+mesa-utils
+
+# window manager
+openbox
+obconf
+
+# compositor
+picom
+
+# wallpaper
+nitrogen
+
+# display manager
+lightdm
+lightdm-settings
+slick-greeter
+
+# panel / dock
+tint2
+plank
+polybar
+
+# appearance
+lxappearance
+qt5ct
+
+# notifications
+dunst
+libnotify-bin
+
+# tray utils
+cbatticon
+network-manager-gnome
+pasystray
+volumeicon-alsa
+
+# shortcuts / input
+sxhkd
+xbindkeys
+xbindkeys-config
+xvkbd
+xxkb

@@ -1,0 +1,43 @@
+#          __                _ __  __
+#   ____ _/ /___ ___________(_) /_/ /___  __
+#  / __ `/ / __ `/ ___/ ___/ / __/ __/ / / /
+# / /_/ / / /_/ / /__/ /  / / /_/ /_/ /_/ /
+# \__,_/_/\__,_/\___/_/  /_/\__/\__/\__, /
+#                                  /____/
+#
+# RESSOURCES
+#   - https://alacritty.org/config-alacritty.html
+#   - https://github.com/alacritty/alacritty-theme
+#   - https://toml.io/en/
+#
+# import = [
+# "~/.config/alacritty/aura-theme.toml",
+# "~/.config/alacritty/keybindings.toml",
+# ]
+
+[env]
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[window]
+dimensions = { columns = 95, lines = 20 }
+decorations = "None"
+opacity = 1.0
+title = ""
+dynamic_title = false
+
+[font]
+# See available fonts in the system: fc-list | grep -i "word"
+size = 18
+normal = { family = "Hack Nerd Font Mono", style = "Regular" }
+bold = { family = "Hack Nerd Font Mono", style = "Bold" }
+italic = { family = "Hack Nerd Font Mono", style = "Italic" }
+bold_italic = { family = "Hack Nerd Font Mono", style = "Bold Italic" }
+
+[selection]
+save_to_clipboard = true
+
+[cursor]
+style = { shape = "Beam", blinking = "On" }
+
+[general]
+import = ["~/.config/alacritty/aura-theme.toml"]

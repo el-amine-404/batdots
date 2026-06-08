@@ -1,0 +1,35 @@
+# ~/.ssh/config -- global ssh client config.
+#
+# Logic: First match wins. Host-specific blocks in config.local take precedence
+# over the global Host * defaults defined below.
+
+# Always read local overrides first so per-host blocks beat the wildcard.
+Include ~/.ssh/config.local
+
+# -- global hardening -- applies to every Host that didn't match earlier ------
+Host *
+  # Use two known_hosts files: .local for dynamic entries (ignored by git),
+  # and the standard one for static trusted entries (e.g. github.com).
+  UserKnownHostsFile     ~/.ssh/known_hosts.local ~/.ssh/known_hosts
+  IdentitiesOnly         yes
+  PreferredAuthentications publickey
+  StrictHostKeyChecking  yes
+  PasswordAuthentication no
+  ForwardAgent           no
+  ForwardX11             no
+  HashKnownHosts         yes
+  ServerAliveInterval    60
+  ServerAliveCountMax    3
+  AddKeysToAgent         yes
+
+# -- examples (commented; copy to ~/.ssh/config.local and edit) --------------
+#
+# Host github.com-personal
+#   HostName     github.com
+#   User         git
+#   IdentityFile ~/.ssh/keys/personal
+#
+# Host my-homelab
+#   HostName     192.168.1.10
+#   User         pi
+#   IdentityFile ~/.ssh/keys/homelab

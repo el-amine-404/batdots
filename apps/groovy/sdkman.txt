@@ -1,0 +1,2 @@
+# sdkman groovy versions
+groovy|5.0.4|true

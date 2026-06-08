@@ -1,0 +1,8 @@
+# apps/bash/bash_logout
+# shellcheck shell=bash
+# Executed by bash when a login shell exits.
+# Clear the console on the outermost logout to limit shoulder-surfing.
+
+if [[ "$SHLVL" = 1 ]] && [[ -x /usr/bin/clear_console ]]; then
+  /usr/bin/clear_console -q
+fi

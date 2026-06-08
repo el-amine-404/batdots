@@ -1,0 +1,94 @@
+# For the benefit of emacs users: -*- shell-script -*-
+###########################
+# xbindkeys configuration #
+###########################
+
+# Ensure PATH is available
+# export PATH=$HOME/.local/bin/dotfiles:$HOME/.local/bin:/usr/local/bin:/usr/bin:/bin
+
+# ------------------------------------------------------------------------------
+# SYSTEM & UTILS
+# ------------------------------------------------------------------------------
+
+# Show help
+"notify-send 'Hotkeys' 'Defined in ~/.xbindkeysrc'"
+    control + shift + q
+
+# Reload
+"pkill -x xbindkeys; xbindkeys"
+    Mod4 + Escape
+
+# ------------------------------------------------------------------------------
+# APPLICATIONS
+# ------------------------------------------------------------------------------
+
+"alacritty --working-directory $HOME"
+    control + alt + t
+
+"pcmanfm"
+    Mod4 + e
+
+# ------------------------------------------------------------------------------
+# ROFI MENUS (Alt + Shift Pattern)
+# ------------------------------------------------------------------------------
+
+"rofi -show drun -show-icons"
+    alt + shift + f
+
+"rofi -show run"
+    alt + shift + r
+
+"rofi-scripts.sh"
+    alt + shift + d
+
+"rofi-emojie-picker.sh"
+    alt + shift + e
+
+# ------------------------------------------------------------------------------
+# MEDIA CONTROLS
+# ------------------------------------------------------------------------------
+
+"volume.sh up"
+    XF86AudioRaiseVolume
+
+"volume.sh down"
+    XF86AudioLowerVolume
+
+"volume.sh mute"
+    XF86AudioMute
+
+"volume.sh mic-mute"
+    XF86AudioMicMute
+
+# ------------------------------------------------------------------------------
+# SCREENSHOTS & OCR (Alt + Shift Pattern)
+# ------------------------------------------------------------------------------
+
+"flameshot gui"
+    alt + shift + p
+
+"/usr/bin/flatpak run --command=normcap com.github.dynobo.normcap"
+    alt + shift + c
+
+# Instant Shots (Print Screen variants)
+"screenshot.sh save-full-screen"
+    Print
+
+"screenshot.sh save-selected-area"
+    shift + Print
+
+"screenshot.sh save-focused-window"
+    alt + Print
+
+"screenshot.sh copy-full-screen"
+    control + Print
+
+"screenshot.sh copy-selected-area"
+    control + shift + Print
+
+"screenshot.sh copy-focused-window"
+    control + alt + Print
+
+##################################
+# End of xbindkeys configuration #
+##################################

@@ -1,0 +1,50 @@
+# restic exclude patterns (symlinked to ~/.config/restic/restic_ignore).
+# A pattern with no '/' matches anywhere; a trailing '/' matches directories.
+# for the backup list see: DOTFILES_RESTIC_BACKUP_PATHS
+
+# caches & temp
+.cache
+.local/share/Trash
+/tmp
+/var/tmp
+*.tmp
+*.swp
+*.part
+*.crdownload
+
+# dev build artifacts
+node_modules/
+target/
+build/
+dist/
+.gradle/
+.venv/
+__pycache__/
+*.pyc
+*.class
+*.jar
+*.war
+.idea/
+.vscode/
+.angular/
+
+# this framework's own throwaway dirs
+.trash-scripts/
+ORIGINAL_JPEG/
+ORIGINAL_PNG/
+ORIGINAL_PDF/
+BAD_JPG/
+BAD_PNG/
+BAD_VIDEO/
+BAD_PDF/
+QUARANTINE/
+
+# VM disk images
+*.vdi
+*.vmdk
+*.vhd
+*.qcow2
+*.box
+
+# bulky, re-downloadable
+*.iso

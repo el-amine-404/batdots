@@ -1,0 +1,25 @@
+# shellcheck configuration
+#
+# Library files use `source` heavily and rely on dynamic indirection, which
+# triggers a few rules that don't add signal in this codebase. Disable only
+# those -- keep everything else strict.
+
+# SC1090, SC1091  Can't follow non-constant source. We always use $DOTFILES_ROOT
+#                 and runtime-resolved paths; following them statically is impossible.
+disable=SC1090
+disable=SC1091
+
+# SC2034  "appears unused" -- false positives for color/level constants that are
+#         only consumed by sourced files (the colors.sh / log.sh pattern).
+disable=SC2034
+
+# SC2154  "referenced but not assigned" -- same indirection pattern: variables
+#         like ${PREFIX_VERSION} are populated by sourcing config/versions.conf.
+disable=SC2154
+
+# SC2155  "Declare and assign separately" -- readability hit not worth the noise
+#         in dotfiles helpers; reserve for cases where the assigning command
+#         actually fails meaningfully.
+disable=SC2155
+
+external-sources=true

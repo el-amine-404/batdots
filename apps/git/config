@@ -1,0 +1,24 @@
+[core]
+	editor = vim
+	autocrlf = input
+
+[init]
+	defaultBranch = main
+
+[alias]
+  s = status
+  c = commit
+  b = branch
+	ac = !git add --all && git commit
+  l = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+  d = diff
+  dc = diff --cached
+
+[color]
+    ui = auto
+[http]
+	postBuffer = 524288000
+	maxRequestSize = 524288000
+	lowSpeedLimit = 0
+	lowSpeedTime = 999999
+	version = HTTP/1.1

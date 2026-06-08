@@ -1,0 +1,26 @@
+name: Feature request
+description: A new component, helper, or workflow.
+title: "[feat]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed Change
+      description: What should the codebase be able to do that it can't today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale
+      description: The problem this solves or the workflow it improves.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: Why this approach and not another?

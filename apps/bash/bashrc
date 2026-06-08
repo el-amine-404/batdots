@@ -1,0 +1,24 @@
+# apps/bash/bashrc
+# shellcheck shell=bash
+# Interactive shell configuration. Bootstraps helpers and sources
+# every module in bashrc.d/ in lexical order (numeric prefixes drive ordering).
+
+# If not running interactively, do nothing.
+case $- in
+  *i*) ;;
+  *) return ;;
+esac
+
+# Make less friendlier for non-text inputs.
+[[ -x /usr/bin/lesspipe ]] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# Helpers (path::*, dir::*, cmd::*, shell::*).
+[[ -r "$HOME/.bash/helpers.sh" ]] && source "$HOME/.bash/helpers.sh"
+
+# All interactive modules.
+[[ -d "$HOME/.bash/bashrc.d" ]] && shell::source_dir "$HOME/.bash/bashrc.d"
+
+# Personal overrides -- gitignored, machine-specific.
+# (Now handled automatically by lib/bash-utilities.sh)
+
+# Ensure the shell starts with a clean exit status

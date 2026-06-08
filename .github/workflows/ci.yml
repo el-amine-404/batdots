@@ -1,0 +1,105 @@
+name: ci
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+# Only one CI run per branch -- older ones get cancelled when you push again.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: lint (shellcheck · shfmt · markdown · gitleaks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # gitleaks scans the full history
+
+      - name: Run shellcheck
+        uses: ludeeus/action-shellcheck@2.0.0
+        env:
+          # Mirror .shellcheckrc -- keep these in sync.
+          SHELLCHECK_OPTS: >-
+            --severity=warning --exclude=SC1090,SC1091,SC2034,SC2154,SC2155
+        with:
+          severity: warning
+          scandir: "."
+
+      - name: Set up shfmt
+        uses: mfinelli/setup-shfmt@v3
+        with:
+          shfmt-version: 3.10.0
+
+      - name: Run shfmt --diff (strict)
+        run: |
+          # If shfmt would change any file, dump the diff and fail.
+          shfmt -d -i 2 -ci -bn -sr $(find . -type f \
+            \( -name '*.sh' -o -name '*.bash' \) \
+            -not -path './.git/*' \
+            -not -path './apps/*')
+
+      - name: Set up Node (for markdownlint)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run markdownlint
+        run: |
+          npm install -g markdownlint-cli@0.43.0
+          markdownlint --config .markdownlint.json '**/*.md' --ignore node_modules --ignore apps
+
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Verify config/package-managers/*.conf is canonical
+        run: ./scripts/maintenance/format-config.sh --check
+
+  smoke:
+    name: smoke test (syntax + version registry)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: bash -n on every script
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            bash -n "$f" || { echo "::error file=$f::syntax error"; fail=1; }
+          done < <(find . -type f \( -name '*.sh' -o -name '*.bash' \) -not -path './.git/*')
+          exit "$fail"
+
+      - name: Verify versions.conf parses cleanly
+        run: |
+          bash -c '
+            set -Eeuo pipefail
+            export DOTFILES_ROOT="$PWD"
+            source lib/bash-utilities.sh
+            source config/versions.conf
+            test ${#MEDIA_STACK_COMPONENTS[@]} -gt 0
+            test ${#FONT_COMPONENTS[@]}         -gt 0
+            test ${#TOOL_COMPONENTS[@]}         -gt 0
+          '
+
+      - name: Spot-check version resolver against upstream (3 components)
+        run: |
+          bash -c '
+            set -Eeuo pipefail
+            export DOTFILES_ROOT="$PWD"
+            source lib/bash-utilities.sh
+            source config/versions.conf
+            for c in NASM FFMPEG GHOSTSCRIPT; do
+              v=$(source::fetch_latest "$c")
+              echo "  $c -> $v"
+              [[ -n "$v" ]] || { echo "::error::$c resolved empty"; exit 1; }
+            done
+          '

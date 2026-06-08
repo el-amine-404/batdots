@@ -1,0 +1,45 @@
+#           _   _
+#  ______ _| |_| |__  _   _ _ __ __ _
+# |_  / _` | __| '_ \| | | | '__/ _` |
+#  / / (_| | |_| | | | |_| | | | (_| |
+# /___\__,_|\__|_| |_|\__,_|_|  \__,_|
+#
+# config file for zathura.
+# `man zathurarc' for more infos
+## Settings & Privacy
+set selection-clipboard clipboard # Automatically syncs selected text to system clipboard
+set adjust-open "best-fit"         # Always scale the page to fit the window width on open
+set dbus-service false             # PRIVACY: Prevents zathura from being controlled over DBus
+set database "null"                # PRIVACY: Disables 'recent files' and search history tracking
+
+## UI Customization
+# set statusbar-h-padding 0
+# set statusbar-v-padding 0
+set guioptions "sv"                  # Removes all GUI elements (scrollbars, etc.) for a clean look
+set window-title-basename true     # Only show the filename in the window title, not the full path
+set statusbar-basename true
+set statusbar-home-tilde true
+
+## Search & Navigation
+set incremental-search true        # Search as you type
+set scroll-step 50                 # How far it scrolls on each keypress
+
+## Key Bindings
+map p print                        # Quick print
+unmap f                            # Remove default 'f' binding
+map f toggle_fullscreen            # Toggle fullscreen with 'f'
+map [fullscreen] f toggle_fullscreen
+
+# Smooth Scrolling (Vim style)
+map j scroll down
+map k scroll up
+map d scroll half-down
+map u scroll half-up
+
+# Rapid jump - Type "50G" to go to page 50
+map g goto
+
+# Zooming
+map + zoom in
+map - zoom out
+map = zoom reset

@@ -1,0 +1,2 @@
+# sdkman Springboot Versions
+springboot|4.0.2|true

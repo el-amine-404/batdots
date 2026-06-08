@@ -1,0 +1,49 @@
+# ~.config/beets/config.yaml
+
+directory: ~/music
+library: ~/beets_data/musiclibrary.db
+
+plugins: fetchart embedart lyrics lastgenre
+
+import: # Beets can move or copy files but it doesn't make sense to do both).
+  write: yes # Controlling whether metadata (e.g., ID3) tags are written to files when using beet import.
+  move: yes # Move the files. Otherwise there will be duplicates.
+  copy: no
+  autotag: yes
+  quiet_fallback: skip
+  timid: yes
+
+fetchart:
+  auto: yes
+  maxwidth: 300
+  cautious: yes
+  cover_names: cover folder
+
+paths:
+  default: $albumartist/$album%aunique{} ($year)/$track - $title
+  singleton: $artist/singleton/$track - $title
+
+lyrics:
+  auto: yes # Fetch lyrics automatically during import. Default: yes.
+  fallback:
+    "" # By default, the file will be left unchanged when no lyrics are found.
+    # Use the empty string '' to reset the lyrics in such a case.
+    # Default: None.
+  force:
+    no # By default, beets won't fetch lyrics if the files already have ones.
+    # To instead always fetch lyrics, set the force option to yes.
+    # Default: no.
+
+embedart:
+  auto:
+    yes # Enable automatic album art embedding.
+    # The smaller the threshold number, the more similar the images must be.
+  ifempty: no # Avoid embedding album art for files that already have art embedded.
+  maxwidth:
+    0 # A maximum width to downscale images before embedding them (the original image file is not altered).
+    # The resize operation reduces image width to at most maxwidth pixels.
+    # The height is recomputed so that the aspect ratio is preserved. See also Image Resizing for further caveats about image resizing.
+  remove_art_file:
+    no # Automatically remove the album art file for the album after it has been embedded.
+    # This option is best used alongside the FetchArt plugin to download art with the purpose
+    # of directly embedding it into the file's metadata without an "intermediate" album art file.

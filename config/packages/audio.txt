@@ -1,0 +1,8 @@
+# Audio backend and system tools.
+
+pulseaudio
+pipewire
+pipewire-audio-client-libraries
+alsa-utils
+pavucontrol
+sox

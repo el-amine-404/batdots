@@ -1,0 +1,12 @@
+# ~/.ssh/config.local -- personal ssh hosts (NOT in version control).
+# Copy to ~/.ssh/config.local and edit. Loaded by ~/.ssh/config via Include.
+
+# Host github.com-personal
+#   HostName     github.com
+#   User         git
+#   IdentityFile ~/.ssh/keys/personal
+#
+# Host my-homelab
+#   HostName     192.168.1.10
+#   User         pi
+#   IdentityFile ~/.ssh/keys/homelab

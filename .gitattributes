@@ -1,0 +1,24 @@
+# Force LF line endings everywhere -- protects against Windows clones corrupting
+# shebangs and shell scripts.
+* text=auto eol=lf
+
+# Treat shell scripts as shell-flavored even when they have no extension.
+*.sh           text eol=lf
+bin/*          text eol=lf
+scripts/**/*   text eol=lf
+
+# Linguist hints for prettier GitHub language stats.
+*.conf         linguist-language=Shell
+*.txt          linguist-detectable=false
+
+# Binary blobs -- never line-end converted, never diffed line-by-line.
+*.zip          binary
+*.tar.gz       binary
+*.tar.xz       binary
+*.png          binary
+*.jpg          binary
+*.jpeg         binary
+*.ttf          binary
+*.otf          binary
+*.woff         binary
+*.woff2        binary

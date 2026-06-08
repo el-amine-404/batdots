@@ -1,0 +1,63 @@
+# Multimedia codecs and CLI tools.
+
+# gstreamer stack
+gst_base
+gst_plugins_good
+gst_plugins_bad
+gst_plugins_ugly
+gst_libav
+
+# ffmpeg extra
+ffmpeg_extra_codecs
+
+# image codecs / libs
+lib_heif
+lib_heif_examples
+heif_gdk_pixbuf
+heif_thumbnailer
+lib_de265
+lib_avif
+lib_aom
+lib_dav1d
+lib_webp
+lib_jpeg_turbo
+lib_raw
+lib_exiv2
+lib_openjpeg
+lib_inih
+
+# audio codecs / libs
+lib_mp3lame
+lib_opus
+lib_vorbis
+lib_ogg
+lib_theora
+lib_aac
+lib_fdk_aac
+lib_flac
+
+# video codecs / libs
+lib_x264
+lib_x265
+lib_vpx
+lib_svtav1
+lib_dvd_nav
+lib_dvd_read
+
+# hw acceleration
+vainfo
+mesa_va_drivers
+lib_va
+lib_vdpau
+lib_numa
+
+# multimedia helpers
+lib_ass
+lib_freetype
+lib_fribidi
+lib_harfbuzz
+lib_sdl2
+
+# qr tools
+qrencode
+zbar-tools

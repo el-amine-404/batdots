@@ -1,0 +1,8 @@
+[Unit]
+Description=restic monthly test restore (proves the restore path works)
+
+[Service]
+Type=oneshot
+Nice=15
+IOSchedulingClass=idle
+ExecStart=%h/.local/bin/dotfiles/restic-test-restore.sh

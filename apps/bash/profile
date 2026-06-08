@@ -1,0 +1,20 @@
+# apps/bash/profile
+# shellcheck shell=bash
+# Login shell configuration. Sets environment + PATH, then chains to .bashrc
+# so that interactive login shells get the same setup as non-login shells.
+
+# Helpers (path::*, dir::*, cmd::*, shell::*).
+[[ -r "$HOME/.bash/helpers.sh" ]] && source "$HOME/.bash/helpers.sh"
+
+# Login-time modules: env vars, PATH composition, language SDKs.
+[[ -d "$HOME/.bash/profile.d" ]] && shell::source_dir "$HOME/.bash/profile.d"
+
+# Personal overrides -- gitignored, machine-specific DOTFILES_* values in
+# local/env.sh (sourced automatically by lib/bash-utilities.sh).
+
+# Chain to .bashrc when running under bash (covers interactive login shells).
+if [[ -n "$BASH_VERSION" && -r "$HOME/.bashrc" ]]; then
+  source "$HOME/.bashrc"
+fi
+
+# Ensure the shell starts with a clean exit status

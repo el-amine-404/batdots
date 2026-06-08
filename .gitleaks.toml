@@ -1,0 +1,15 @@
+# gitleaks configuration -- extends the bundled default ruleset.
+#
+# Picked up automatically by both the pre-commit hook and the gitleaks-action
+# in CI (they look for .gitleaks.toml at the repo root).
+
+[extend]
+useDefault = true
+
+[allowlist]
+description = """
+config/package-managers/*.conf are plain `varname=package-name` maps consumed by
+the package resolver -- never secrets. High-entropy package names (e.g.
+libxcb-keysyms1-dev) trip the generic-api-key rule, so allowlist the whole set.
+"""
+paths = ['''config/package-managers/.*\.conf$''']

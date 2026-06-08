@@ -1,0 +1,95 @@
+# ~/.config/starship.toml
+
+# 1. Global Settings
+# ------------------------------------------------------------------------------
+# Starship handles the leading newline via add_newline
+add_newline = true
+command_timeout = 1000
+
+# 2. The Prompt Layout
+# ------------------------------------------------------------------------------
+# Line 1: Bold Cyan Directory + Git Branch + [FILL] + Execution Time
+# Line 2: Prompt Character
+format = """
+$directory$git_branch$git_state$git_metrics$package$java$nodejs$docker_context$fill$cmd_duration
+$character"""
+
+# 3. Core Modules
+# ------------------------------------------------------------------------------
+
+[fill]
+symbol = " "
+
+[directory]
+# Replicating \W (basename only)
+truncation_length = 1
+fish_style_pwd_dir_length = 0
+style = "bold cyan"
+format = "[$path]($style) "
+truncation_symbol = ""
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
+format = "$symbol "
+
+[status]
+disabled = false
+format = '[$symbol$status]($style) '
+symbol = '✘'
+success_symbol = '✔'
+style = 'bold red'
+
+[cmd_duration]
+min_time = 0
+show_milliseconds = false
+format = "took [$duration]($style)"
+style = "bold yellow"
+
+# 4. Git Integration
+# ------------------------------------------------------------------------------
+[git_branch]
+symbol = "󰊢 "
+style = "bold white"
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+format = '([$all_status$ahead_behind]($style))'
+style = "bold"
+ahead = "[ahead $count](blue) "
+behind = "[behind $count](magenta) "
+diverged = "[diverged](red) "
+up_to_date = ""
+untracked = "[new $count](yellow) "
+stashed = "[stashed](cyan) "
+modified = "[mod $count](yellow) "
+staged = "[staged $count](green) "
+renamed = "[renamed](blue) "
+deleted = "[del $count](red) "
+
+[git_state]
+format = '\([$state($progress_current/$progress_total)]($style)\) '
+style = "bold yellow"
+
+# 5. Language Stacks
+# ------------------------------------------------------------------------------
+[java]
+symbol = "☕ "
+style = "red bold"
+format = "via [$symbol($version )]($style)"
+
+[nodejs]
+symbol = "⬢ "
+style = "bold green"
+format = "via [$symbol($version )]($style)"
+
+[docker_context]
+symbol = "🐳 "
+style = "blue bold"
+format = "on [$symbol$context]($style) "
+
+# 6. Package Info
+# ------------------------------------------------------------------------------
+[package]
+symbol = "📦 "
+disabled = true

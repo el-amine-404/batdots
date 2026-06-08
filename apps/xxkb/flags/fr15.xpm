@@ -1,0 +1,30 @@
+/* XPM */
+static char *fr15[] = {
+/* columns rows colors chars-per-pixel */
+"15 15 9 1 ",
+"  c #EDC6275B378E",
+". c #EDED29293939",
+"X c #F04545075302",
+"o c #0000218A94D0",
+"O c #000023239595",
+"+ c #1CA53BD9A17D",
+"@ c #DECAE359F231",
+"# c #FDF9E7F5E9C1",
+"$ c white",
+/* pixels */
+"OOOO+@$$$#X ...",
+"OOOO+@$$$#X ...",
+"OOOO+@$$$#X ...",
+"OOOO+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X   .",
+"OOOo+@$$$#X ...",
+"OOOo+@$$$#X ..."
+};

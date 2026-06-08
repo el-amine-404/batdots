@@ -1,0 +1,373 @@
+{
+  "policies": {
+    "AppAutoUpdate": false,
+    "AutofillAddressEnabled": false,
+    "AutofillCreditCardEnabled": false,
+    "BackgroundAppUpdate": false,
+    "DisableAccounts": true,
+    "DisableBuiltinPDFViewer": true,
+    "DisableTelemetry": true,
+    "DisableFirefoxStudies": true,
+    "DisablePocket": true,
+    "DisableFirefoxAccounts": true,
+    "DisableFeedbackCommands": true,
+    "DisableForgetButton": false,
+    "DisableFormHistory": true,
+    "DisableMasterPasswordCreation": true,
+    "DisablePasswordReveal": true,
+    "DisableProfileImport": true,
+    "DisableSystemAddonUpdate": true,
+    "DontCheckDefaultBrowser": true,
+    "DisplayBookmarksToolbar": "never",
+    "SearchBar": "unified",
+    "PasswordManagerEnabled": false,
+    "OfferToSaveLogins": false,
+    "OverrideFirstRunPage": "",
+    "OverridePostUpdatePage": "",
+    "DNSOverHTTPS": {
+      "Enabled": true,
+      "ProviderURL": "https://security.cloudflare-dns.com/dns-query",
+      "Locked": true,
+      "Fallback": false
+    },
+    "Permissions": {
+      "Camera": {
+        "BlockNewRequests": false,
+        "Locked": false
+      },
+      "Microphone": {
+        "BlockNewRequests": false,
+        "Locked": false
+      },
+      "Location": {
+        "BlockNewRequests": false,
+        "Locked": false
+      },
+      "Notifications": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "Autoplay": {
+        "Default": "block-audio-video",
+        "Locked": true
+      },
+      "VirtualReality": {
+        "BlockNewRequests": true,
+        "Locked": true
+      },
+      "ScreenShare": {
+        "BlockNewRequests": false,
+        "Locked": false
+      }
+    },
+    "PostQuantumKeyAgreementEnabled": true,
+    "EnableTrackingProtection": {
+      "Value": true,
+      "Locked": true,
+      "Cryptomining": true,
+      "Fingerprinting": true,
+      "EmailTracking": true
+    },
+    "EncryptedMediaExtensions": {
+      "Enabled": false,
+      "Locked": true
+    },
+    "ExtensionSettings": {
+      "*": {
+        "installation_mode": "blocked",
+        "blocked_install_message": "Extensions are disabled by system policy."
+      },
+      "uBlock0@raymondhill.net": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",
+        "default_area": "menupanel",
+        "private_browsing": true
+      },
+      "CanvasBlocker@kkapsner.de": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/canvasblocker/latest.xpi",
+        "default_area": "navbar",
+        "private_browsing": true
+      },
+      "@testpilot-containers": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi",
+        "default_area": "navbar",
+        "private_browsing": true
+      },
+      "{446900e4-71c2-419f-a6a7-df9c091e268b}": {
+        "installation_mode": "force_installed",
+        "install_url": "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi",
+        "default_area": "navbar",
+        "private_browsing": true
+      }
+    },
+    "FirefoxHome": {
+      "Search": false,
+      "TopSites": false,
+      "SponsoredTopSites": false,
+      "Highlights": false,
+      "Pocket": false,
+      "Stories": false,
+      "SponsoredPocket": false,
+      "SponsoredStories": false,
+      "Snippets": false,
+      "Locked": true
+    },
+    "Homepage": {
+      "Locked": true,
+      "StartPage": "none"
+    },
+    "NewTabPage": false,
+    "NetworkPrediction": false,
+    "HttpsOnlyMode": "enabled",
+    "FirefoxSuggest": {
+      "WebSuggestions": false,
+      "SponsoredSuggestions": false,
+      "ImproveSuggest": false,
+      "Locked": true
+    },
+    "Cookies": {
+      "Allow": ["http://example.org/"],
+      "AllowSession": ["http://example.edu/"],
+      "Block": ["http://example.edu/"],
+      "Locked": true,
+      "Behavior": "reject-foreign",
+      "BehaviorPrivateBrowsing": "reject"
+    },
+    "SanitizeOnShutdown": {
+      "Cache": true,
+      "Cookies": true,
+      "FormData": true,
+      "History": true,
+      "Sessions": true,
+      "SiteSettings": true,
+      "Locked": true
+    },
+    "SearchEngines": {
+      "PreventInstalls": false,
+      "Add": [
+        {
+          "Name": "YouTube",
+          "URLTemplate": "https://www.youtube.com/results?search_query={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://www.youtube.com/favicon.ico",
+          "Alias": "@yt",
+          "Description": "Search YouTube directly",
+          "SuggestURLTemplate": "https://suggestqueries.google.com/complete/search?output=firefox&ds=yt&q={searchTerms}"
+        },
+        {
+          "Name": "Google",
+          "URLTemplate": "https://www.google.com/search?q={searchTerms}&udm=14",
+          "Method": "GET",
+          "IconURL": "https://www.google.com/favicon.ico",
+          "Alias": "@g",
+          "Description": "Google Web Search",
+          "SuggestURLTemplate": "https://www.google.com/complete/search?client=firefox&q={searchTerms}"
+        },
+        {
+          "Name": "Arch Wiki",
+          "URLTemplate": "https://wiki.archlinux.org/index.php?search={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://wiki.archlinux.org/favicon.ico",
+          "Alias": "@arch",
+          "Description": "The Arch Linux Documentation"
+        },
+        {
+          "Name": "GitHub Code",
+          "URLTemplate": "https://github.com/search?q={searchTerms}&type=code",
+          "Method": "GET",
+          "IconURL": "https://github.com/favicon.ico",
+          "Alias": "@gh",
+          "Description": "Search code on GitHub"
+        },
+        {
+          "Name": "Stack Overflow",
+          "URLTemplate": "https://stackoverflow.com/search?q={searchTerms}",
+          "Method": "GET",
+          "IconURL": "https://stackoverflow.com/favicon.ico",
+          "Alias": "@so",
+          "Description": "Search questions and answers on Stack Overflow"
+        },
+        {
+          "Name": "Spring Framework Docs",
+          "URLTemplate": "https://www.google.com/search?q=site:docs.spring.io+{searchTerms}&hl=en",
+          "Method": "GET",
+          "IconURL": "https://spring.io/favicon.ico",
+          "Alias": "@spring",
+          "Description": "Search official Spring Framework documentation"
+        },
+        {
+          "Name": "Linux Man Pages",
+          "URLTemplate": "https://www.die.net/search/?q={searchTerms}&sa=Search&ie=ISO-8859-1&cx=partner-pub-5823754184406795%3A54htp1rtx5u&cof=FORID%3A9#gsc.tab=0&gsc.q={searchTerms}&gsc.page=1",
+          "Method": "GET",
+          "IconURL": "https://www.die.net/favicon.ico",
+          "Alias": "@man",
+          "Description": "Search Linux manual pages on die.net"
+        }
+      ],
+      "Default": "Google"
+    },
+    "SearchSuggestEnabled": false,
+    "ShowHomeButton": true,
+    "TranslateEnabled": true,
+    "SSLVersionMin": "tls1.2",
+    "UserMessaging": {
+      "ExtensionRecommendations": false,
+      "FeatureRecommendations": false,
+      "UrlbarInterventions": false,
+      "SkipOnboarding": true,
+      "MoreFromMozilla": false,
+      "FirefoxLabs": false,
+      "Locked": true
+    },
+    "VisualSearchEnabled": true,
+    "Preferences": {
+      "webgl.disabled": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "browser.translations.automaticallyPopup": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "ui.systemUsesDarkTheme": {
+        "Value": 1,
+        "Status": "locked"
+      },
+      "browser.theme.content-theme": {
+        "Value": 0,
+        "Status": "locked"
+      },
+      "browser.in-content.dark-mode": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "layout.css.prefers-color-scheme.content-override": {
+        "Value": 0,
+        "Status": "locked"
+      },
+      "dom.security.https_only_mode": {
+        "Value": true,
+        "Status": "default"
+      },
+      "dom.security.https_only_mode_pbm": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "security.OCSP.require": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "security.mixed_content.block_display_content": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "security.tls.version.enable-deprecated": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.IDN_show_punycode": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "privacy.globalprivacycontrol.enabled": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "network.prefetch-next": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.dns.disablePrefetch": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "network.dns.disablePrefetchFromHTTPS": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "network.http.speculative-parallel-limit": {
+        "Value": 0,
+        "Status": "locked"
+      },
+      "network.predictor.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.predictor.enable-prefetch": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.captive-portal-service.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.connectivity-service.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "network.http.referer.XOriginPolicy": {
+        "Value": 2,
+        "Status": "locked"
+      },
+      "network.http.referer.trimmingPolicy": {
+        "Value": 2,
+        "Status": "locked"
+      },
+      "network.proxy.socks_remote_dns": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "network.file.disable_unc_paths": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "media.peerconnection.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "media.peerconnection.ice.default_address_only": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "pdfjs.disabled": {
+        "Value": true,
+        "Status": "locked"
+      },
+      "layout.css.font-visibility": {
+        "Value": 2,
+        "Status": "locked"
+      },
+      "browser.search.suggest.enabled": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.urlbar.suggest.searches": {
+        "Value": false,
+        "Status": "locked"
+      },
+      "browser.safebrowsing.malware.enabled": true,
+      "browser.safebrowsing.phishing.enabled": true,
+      "geo.enabled": false,
+      "accessibility.force_disabled": {
+        "Value": 1,
+        "Status": "default",
+        "Type": "number"
+      },
+      "browser.cache.disk.parent_directory": {
+        "Value": "SOME_NATIVE_PATH",
+        "Status": "user"
+      },
+      "browser.tabs.warnOnClose": {
+        "Value": false,
+        "Status": "locked"
+      }
+    },
+    "PrimaryPassword": false,
+    "PromptForDownloadLocation": true,
+    "DefaultDownloadDirectory": "${home}/Downloads",
+    "DownloadDirectory": "${home}/Downloads",
+    "StartDownloadsInTempDirectory": true
+  }
+}

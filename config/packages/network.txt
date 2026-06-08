@@ -1,0 +1,8 @@
+# Network and SSH tooling.
+
+openssh-client
+openssh-server
+nmap
+net-tools
+network-manager
+network-manager-gnome

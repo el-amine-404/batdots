@@ -1,0 +1,18 @@
+# Documentation and typesetting.
+
+# document tools
+tool_pandoc
+tool_pdf_qpdf
+tool_exiftool
+poppler-utils
+ghostscript
+
+# pdf sanitize / accessibility (searchable text layer, rasterized rebuild)
+tool_ocrmypdf
+tool_img2pdf
+
+# latex stack
+tex_base
+tex_xetex
+tex_latex_extra
+tex_fonts_recommended

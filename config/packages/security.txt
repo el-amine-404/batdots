@@ -1,0 +1,21 @@
+# Security auditing and hardening.
+
+# firewall
+ufw
+gufw
+
+# intrusion detection
+fail2ban
+rkhunter
+chkrootkit
+lynis
+
+# antivirus
+clamav
+clamav-daemon
+
+# malware signature scanning (engine; rules via the 'yara-rules' external task)
+yara
+
+# auditing
+auditd

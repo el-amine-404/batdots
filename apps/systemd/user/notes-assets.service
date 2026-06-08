@@ -1,0 +1,11 @@
+[Unit]
+Description=Timestamp-rename new files dropped into the notes assets directory
+
+[Service]
+# Stable path: scripts/user is symlinked to ~/.local/bin/dotfiles by the linker.
+ExecStart=%h/.local/bin/dotfiles/notes-assets.sh
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=default.target

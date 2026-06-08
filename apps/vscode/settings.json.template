@@ -1,0 +1,293 @@
+// Place your settings in this file to override the default ones.
+//                                             __
+//     ____  ___  ______________  ____  ____ _/ /
+//    / __ \/ _ \/ ___/ ___/ __ \/ __ \/ __ `/ /
+//   / /_/ /  __/ /  (__  ) /_/ / / / / /_/ / /
+//  / .___/\___/_/  /____/\____/_/ /_/\__,_/_/
+// /_/
+//                             __                  __  __  _
+//  _   ________________  ____/ /__     ________  / /_/ /_(_)___  ____ ______
+// | | / / ___/ ___/ __ \/ __  / _ \   / ___/ _ \/ __/ __/ / __ \/ __ `/ ___/
+// | |/ (__  ) /__/ /_/ / /_/ /  __/  (__  )  __/ /_/ /_/ / / / / /_/ (__  )
+// |___/____/\___/\____/\__,_/\___/  /____/\___/\__/\__/_/_/ /_/\__, /____/
+//                                                             /____/
+//
+// SECTIONS:
+//    01 - TELEMETRY
+//    02 - EDITOR && WORKBENCH
+//    03 - WINDOW
+//    04 - FILES
+//    05 - SCREENCAST MODE
+//    06 - FILE EXPLORER
+//    07 - TERMINAL
+//    08 - LANGUAGE-SPECIFIC
+//    09 - EXTENSIONS
+//
+// QUICK TIPS:
+//   - To restore default settings delete all the content of this file (only leave {})
+//   - To see all possibe settings open defaultSettings.json (see REAME.md)
+{
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 01] - TELEMETRY
+  // -------------------------------------------------------------------------------------
+  //  - all: Sends usage data, errors, and crash reports.
+  //  - error: Sends general error telemetry and crash reports.
+  //  - crash: Sends OS level crash reports.
+  //  - off: Disables all product telemetry.
+  "telemetry.telemetryLevel": "off",
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 02] - EDITOR && WORKBENCH
+  // -------------------------------------------------------------------------------------
+  // Controls whether suggestions should be accepted on `Enter`, in addition to `Tab`.
+  // Helps to avoid ambiguity between inserting new lines or accepting suggestions.
+  //  - on
+  //  - smart: Only accept a suggestion with `Enter` when it makes a textual change.
+  //  - off
+  "editor.acceptSuggestionOnEnter": "off",
+  // Controls whether the editor should automatically close brackets after the user adds
+  // an opening bracket.
+  //  - always
+  //  - languageDefined: Use language configurations to determine when to autoclose
+  //    brackets.
+  //  - beforeWhitespace: Autoclose brackets only when the cursor is to the left of
+  //    whitespace.
+  //  - never
+  "editor.autoClosingBrackets": "always",
+  // Controls whether the editor should remove adjacent closing quotes or brackets when
+  // deleting.
+  //  - always
+  //  - auto: Remove adjacent closing quotes or brackets only if they were automatically
+  //    inserted.
+  //  - never
+  "editor.autoClosingDelete": "always",
+  // Controls whether bracket pair colorization is enabled or not. Use `workbench.
+  // colorCustomizations` to override the bracket highlight colors.
+  "editor.bracketPairColorization.enabled": true,
+  // Enable/disable showing group headers in the Code Action menu.
+  "editor.codeActionWidget.showHeaders": true,
+  // Controls whether the smooth caret animation should be enabled.
+  //  - off: Smooth caret animation is disabled.
+  //  - explicit: Smooth caret animation is enabled only when the user moves the cursor
+  //    with an explicit gesture.
+  //  - on: Smooth caret animation is always enabled.
+  "editor.cursorSmoothCaretAnimation": "on",
+  // Controls whether the editor should allow moving selections via drag and drop.
+  "editor.dragAndDrop": false,
+  // Controls the condition for turning on Find in Selection automatically.
+  //  - never: Never turn on Find in Selection automatically (default).
+  //  - always: Always turn on Find in Selection automatically.
+  //  - multiline: Turn on Find in Selection automatically when multiple lines of content
+  //    are selected.
+  "editor.find.autoFindInSelection": "multiline",
+  // Controls whether the cursor should jump to find matches while typing.
+  "editor.find.cursorMoveOnType": false,
+  // Controls the font size in pixels.
+  "editor.fontSize": 14,
+  // Controls the font weight. Accepts "normal" and "bold" keywords or numbers between 1
+  // and 1000.
+  "editor.fontWeight": "normal",
+  // Format a file on save. A formatter must be available, the file must not be saved
+  // after delay, and the editor must not be shutting down.
+  "editor.formatOnSave": true,
+  // Controls when the minimap slider is shown.
+  "editor.minimap.showSlider": "always",
+  // Render vertical rulers after a certain number of monospace characters. Use multiple
+  // values for multiple rulers. No rulers are drawn if array is empty.
+  "editor.rulers": [
+    90
+  ],
+  // The number of spaces a tab is equal to. This setting is overridden based on the file
+  // contents when `editor.detectIndentation` is on.
+  "editor.tabSize": 2,
+  // Controls from which documents word based completions are computed.
+  //  - currentDocument: Only suggest words from the active document.
+  //  - matchingDocuments: Suggest words from all open documents of the same language.
+  //  - allDocuments: Suggest words from all open documents.
+  "editor.wordBasedSuggestionsMode": "currentDocument",
+  // Controls how lines should wrap.
+  //  - off: Lines will never wrap.
+  //  - on: Lines will wrap at the viewport width.
+  //  - wordWrapColumn: Lines will wrap at `editor.wordWrapColumn`.
+  //  - bounded: Lines will wrap at the minimum of viewport and `editor.wordWrapColumn`.
+  "editor.wordWrap": "wordWrapColumn",
+  // Controls the wrapping column of the editor when `editor.wordWrap` is
+  // `wordWrapColumn` or `bounded`.
+  "editor.wordWrapColumn": 90,
+  // Controls whether the editor has linked editing enabled. Depending on the language,
+  // related symbols such as HTML tags, are updated while editing.
+  "editor.linkedEditing": true,
+  // Controls whether `editor.tabSize#` and `#editor.insertSpaces` will be automatically
+  // detected when a file is opened based on the file contents.
+  "editor.detectIndentation": false,
+  // Controls which editor is shown at startup, if none are restored from the previous
+  // session.
+  //  - none: Start without an editor.
+  //  - welcomePage: Open the Welcome page, with content to aid in getting started with
+  //    VS Code and extensions.
+  //  - readme: Open the README when opening a folder that contains one, fallback to
+  //    'welcomePage' otherwise. Note: This is only observed as a global configuration,
+  //    it will be ignored if set in a workspace or folder configuration.
+  //  - newUntitledFile: Open a new untitled text file (only applies when opening an
+  //    empty window).
+  //  - welcomePageInEmptyWorkbench: Open the Welcome page when opening an empty
+  //    workbench.
+  "workbench.startupEditor": "none",
+  // Specifies the file icon theme used in the workbench or 'null' to not show any file
+  // icons.
+  //  - null: No file icons
+  //  - vs-minimal
+  //  - vs-seti
+  "workbench.iconTheme": "material-icon-theme",
+  // Determines which settings editor to use by default.
+  //  - ui: Use the settings UI editor.
+  //  - json: Use the JSON file editor.
+  "workbench.settings.editor": "ui",
+  // Controls whether opening keybinding settings also opens an editor showing all
+  // default keybindings.
+  "workbench.settings.openDefaultKeybindings": true,
+  // Controls whether opening settings also opens an editor showing all default settings.
+  "workbench.settings.openDefaultSettings": true,
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 03] - WINDOW
+  // -------------------------------------------------------------------------------------
+  // Control the visibility of the menu bar. A setting of 'toggle' means that the menu
+  // bar is hidden and a single press of the Alt key will show it. A setting of 'compact'
+  // will move the menu into the side bar.
+  //  - classic: Menu is displayed at the top of the window and only hidden in full
+  //    screen mode.
+  //  - visible: Menu is always visible at the top of the window even in full screen mode.
+  //  - toggle: Menu is hidden but can be displayed at the top of the window via the Alt
+  //    key.
+  //  - hidden: Menu is always hidden.
+  //  - compact: Menu is displayed as a compact button in the side bar. This value is
+  //    ignored when `window.titleBarStyle` is `native`.
+  "window.menuBarVisibility": "toggle",
+  // Controls the window title based on the active editor.
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName}${separator}${profileName}👻️",
+  // Separator used by `window.title`.
+  "window.titleSeparator": " _ ",
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 04] - FILES
+  // -------------------------------------------------------------------------------------
+  // Moves files/folders to the OS trash (recycle bin on Windows) when deleting.
+  // Disabling this will delete files/folders permanently.
+  "files.enableTrash": false,
+  // Configure glob patterns for excluding files and folders. For example, the File
+  // Explorer decides which files and folders to show or hide based on this setting.
+  // Refer to the `search.exclude` setting to define search-specific excludes.
+  "files.exclude": {
+    "**/.git": false,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  // When enabled, will trim all new lines after the final new line at the end of the
+  // file when saving it.
+  "files.trimFinalNewlines": true,
+  // When enabled, will trim trailing whitespace when saving a file.
+  "files.trimTrailingWhitespace": true,
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 05] - SCREENCAST MODE
+  // -------------------------------------------------------------------------------------
+  // Controls the font size (in pixels) of the screencast mode keyboard.
+  "screencastmode.fontsize": 40,
+  // Controls what is displayed in the keyboard overlay when showing shortcuts.
+  //  - keys: Keys.
+  //  - command: Command title.
+  //  - commandWithGroup: Command title prefixed by its group.
+  //  - commandAndKeys: Command title and keys.
+  //  - commandWithGroupAndKeys: Command title and keys, with the command prefixed by its
+  //    group.
+  "screencastMode.keyboardShortcutsFormat": "commandAndKeys",
+  // Show only keyboard shortcuts in screencast mode (do not include action names).
+  "screencastMode.onlyKeyboardShortcuts": true,
+  // Controls the vertical offset of the screencast mode overlay from the bottom as a
+  // percentage of the workbench height.
+  "screencastMode.verticalOffset": 0,
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 06] - FILE EXPLORER
+  // -------------------------------------------------------------------------------------
+  // Controls whether the Explorer should render folders in a compact form. In such a
+  // form, single child folders will be compressed in a combined tree element. Useful for
+  // Java package structures, for example.
+  "explorer.compactFolders": false,
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 07] - TERMINAL
+  // -------------------------------------------------------------------------------------
+  // Controls whether text selected in the terminal will be copied to the clipboard.
+  "terminal.integrated.copyOnSelection": true,
+  // Controls whether the terminal cursor blinks.
+  "terminal.integrated.cursorBlinking": true,
+  // Controls the style of terminal cursor.
+  "terminal.integrated.cursorStyle": "line",
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+    // Only uncomment the following 2 lines when you want to save the file
+    // because while creating it with the preview on the side it is better to leave the
+    // defaults
+    // Controls how lines should wrap.
+    //  - off: Lines will never wrap.
+    //  - on: Lines will wrap at the viewport width.
+    //  - wordWrapColumn: Lines will wrap at `editor.wordWrapColumn`.
+    //  - bounded: Lines will wrap at the minimum of viewport and `editor.wordWrapColumn`.
+    // "editor.wordWrap": "wordWrapColumn",
+    // Controls the wrapping column of the editor when `editor.wordWrap` is
+    // `wordWrapColumn` or `bounded`.
+    // "editor.wordWrapColumn": 90
+  },
+  // Wrap attributes.
+  //  - auto: Wrap attributes only when line length is exceeded.
+  //  - force: Wrap each attribute except first.
+  //  - force-aligned: Wrap each attribute except first and keep aligned.
+  //  - force-expand-multiline: Wrap each attribute.
+  //  - aligned-multiple: Wrap when line length is exceeded, align attributes vertically.
+  //  - preserve: Preserve wrapping of attributes.
+  //  - preserve-aligned: Preserve wrapping of attributes but align.
+  "html.format.wrapAttributes": "auto",
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[java]": {
+    "editor.defaultFormatter": "redhat.java"
+  },
+  // -------------------------------------------------------------------------------------
+  // [SECTION - 09] - EXTENSIONS
+  // -------------------------------------------------------------------------------------
+  // 01 - codesnap
+  "codesnap.roundedCorners": false,
+  "codesnap.showWindowControls": false,
+  "codesnap.containerPadding": "0em",
+  "codesnap.boxShadow": "rgba(0, 0, 0, 0) 0px 0px 0px",
+  "codesnap.backgroundColor": "#ffffff",
+  // 02 - liveserver
+  "liveServer.settings.CustomBrowser": "chrome",
+  "liveServer.settings.donotShowInfoMsg": true,
+  "hediet.vscode-drawio.resizeImages": null,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "workbench.colorCustomizations": {},
+  // 03 - c spell
+  "cSpell.enableFiletypes": [
+    "md",
+    "!py"
+  ],
+  // 04 - Markdown all in one
+  "markdown.extension.toc.updateOnSave": false,
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "terminal.integrated.fontFamily": "Hack Nerd Font Mono",
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "editor.guides.bracketPairs": "active",
+  "editor.cursorBlinking": "expand",
+  "workbench.colorTheme": "Visual Studio 2019 Dark",
+  "rewrap.wrappingColumn": 90,
+  "rewrap.autoWrap.enabled": true,
+  "terminal.integrated.stickyScroll.enabled": false,
+  "http.systemCertificatesNode": true,
+"geminicodeassist.project": "__VSCODE_GEMINI_PROJECT__",
+"terminal.integrated.mouseWheelScrollSensitivity": 3
+}

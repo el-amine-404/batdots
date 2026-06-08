@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Secure sxiv
+Comment=Sandboxed Image Viewer
+Exec=/usr/bin/firejail --quiet sxiv %F
+Icon=sxiv
+Terminal=false
+Categories=Graphics;Viewer;
+MimeType=image/bmp;image/gif;image/jpeg;image/jpg;image/png;image/tiff;image/webp;

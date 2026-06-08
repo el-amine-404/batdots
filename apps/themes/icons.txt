@@ -1,0 +1,2 @@
+# Name      | Git_URL                                                 | Strategy   | Destination
+Papirus     | https://github.com/PapirusDevelopmentTeam/papirus-icon-theme.git | collection | .local/share/icons

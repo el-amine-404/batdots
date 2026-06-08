@@ -1,0 +1,8 @@
+[Unit]
+Description=restic repository integrity check (structure + rotating data subset)
+
+[Service]
+Type=oneshot
+Nice=15
+IOSchedulingClass=idle
+ExecStart=%h/.local/bin/dotfiles/restic-check.sh

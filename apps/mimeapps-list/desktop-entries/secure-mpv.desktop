@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Secure mpv
+Comment=Sandboxed Video Player
+Exec=/usr/bin/firejail --quiet mpv %F
+Icon=mpv
+Terminal=false
+Categories=AudioVideo;Audio;Video;Player;
+MimeType=video/mp4;video/x-matroska;audio/mpeg;
