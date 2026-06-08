@@ -31,7 +31,7 @@ jobs:
 
       - name: Open issue on dead links
         if: steps.probe.outputs.status != '0'
-        uses: peter-evans/create-issue-from-file@v5
+        uses: peter-evans/create-issue-from-file@v6
         with:
           title: "Dead registry URLs detected"
           content-filepath: registry-report.txt
