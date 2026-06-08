@@ -19,7 +19,7 @@ jobs:
     name: lint (shellcheck · shfmt · markdown · gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0 # gitleaks scans the full history
 
@@ -68,7 +68,7 @@ jobs:
     name: smoke test (syntax + version registry)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: bash -n on every script
         run: |
