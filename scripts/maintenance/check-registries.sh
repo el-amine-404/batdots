@@ -59,30 +59,38 @@ checkreg::resolve_targets() {
 
 checkreg::is_url() { [[ ${1:-} =~ ^https?:// ]]; }
 
-checkreg::is_reachable() {
+checkreg::probe_url() {
   local url="$1"
   if [[ $url == *.git ]]; then
-    git ls-remote --exit-code -h "$url" > /dev/null 2>&1
-  else
-    local status
-    status=$(curl -sL -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --retry 2 --max-time 25 "$url" || true)
-    if [[ $status -ne 000 && $status -ne 404 && $status -ne 410 ]]; then
-      return 0
+    if GIT_TERMINAL_PROMPT=0 git ls-remote --exit-code -h "$url" > /dev/null 2>&1; then
+      echo "200"
     else
-      return 1
+      echo "git-err"
     fi
+  else
+    local code
+    code=$(curl -sL -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --retry 2 --max-time 25 "$url" || true)
+    echo "${code:-000}"
   fi
 }
 
 checkreg::check_url() {
   local url="$1" origin="$2" line_num="$3" col="$4"
-  if checkreg::is_reachable "$url"; then
+  local status
+  status=$(checkreg::probe_url "$url")
+
+  local is_ok=0
+  if [[ $status =~ ^(2[0-9]{2}|3[0-9]{2}|403|429)$ ]]; then
+    is_ok=1
+  fi
+
+  if ((is_ok)); then
     CHECKREG_OK=$((CHECKREG_OK + 1))
-    log::debug "OK   $origin:$line_num:$col -> $url"
+    log::debug "OK   $origin:$line_num:$col -> $url ($status)"
   else
     CHECKREG_DEAD=$((CHECKREG_DEAD + 1))
-    log::error "DEAD $origin:$line_num:$col -> $url"
-    CHECKREG_DEAD_LIST+=("${origin}|${line_num}|${col}|${url}")
+    log::error "DEAD $origin:$line_num:$col -> $url ($status)"
+    CHECKREG_DEAD_LIST+=("${origin}|${line_num}|${col}|${url}|${status}")
   fi
 }
 
@@ -132,12 +140,12 @@ checkreg::report() {
     echo ""
     echo "The following dead URLs were found in the registry files:"
     echo ""
-    echo "| File | Line | Column | URL |"
-    echo "| :--- | :--- | :--- | :--- |"
-    local entry file line col url
+    echo "| File | Line | Column | Status | URL |"
+    echo "| :--- | :--- | :--- | :--- | :--- |"
+    local entry file line col url status
     for entry in "${CHECKREG_DEAD_LIST[@]}"; do
-      IFS='|' read -r file line col url <<< "$entry"
-      echo "| ${file} | ${line} | ${col} | ${url} |"
+      IFS='|' read -r file line col url status <<< "$entry"
+      echo "| ${file} | ${line} | ${col} | ${status} | ${url} |"
     done
   fi
   ((CHECKREG_DEAD == 0))
