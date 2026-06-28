@@ -1,0 +1,15 @@
+[Unit]
+Description=Real-time malware watch on media/downloads (inotify)
+After=network.target
+
+[Service]
+Type=simple
+Nice=15
+IOSchedulingClass=idle
+# Stable path: scripts/user is symlinked to ~/.local/bin/dotfiles by the linker.
+ExecStart=%h/.local/bin/dotfiles/media-scan-watch.sh
+Restart=on-failure
+RestartSec=30
+
+[Install]
+WantedBy=default.target

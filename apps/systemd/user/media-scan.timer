@@ -1,0 +1,12 @@
+[Unit]
+Description=Periodic incremental media malware scan (safety net for the watcher)
+
+[Timer]
+OnBootSec=10m
+OnUnitActiveSec=30m
+RandomizedDelaySec=2m
+# Catch up if the machine was asleep at the scheduled time.
+Persistent=true
+
+[Install]
+WantedBy=timers.target

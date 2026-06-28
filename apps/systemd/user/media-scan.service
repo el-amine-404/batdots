@@ -1,0 +1,10 @@
+[Unit]
+Description=Incremental malware scan of new media/downloads
+
+[Service]
+Type=oneshot
+# Never starve real work -- scanning is background hygiene.
+Nice=15
+IOSchedulingClass=idle
+# Stable path: scripts/user is symlinked to ~/.local/bin/dotfiles by the linker.
+ExecStart=%h/.local/bin/dotfiles/media-scan.sh --incremental
