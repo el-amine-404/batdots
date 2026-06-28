@@ -64,7 +64,7 @@ checkreg::is_reachable() {
   if [[ $url == *.git ]]; then
     git ls-remote --exit-code -h "$url" > /dev/null 2>&1
   else
-    curl -fsSL --retry 2 --max-time 25 -o /dev/null "$url" 2> /dev/null
+    curl -fsSL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --retry 2 --max-time 25 -o /dev/null "$url" 2> /dev/null
   fi
 }
 
