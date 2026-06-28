@@ -19,7 +19,8 @@ software whose authors deserve the same credit.
 
 ### The Foundation
 
-- [Bash](https://www.gnu.org/software/bash/) -- The heartbeat of the framework.
+- [Bash](https://savannah.gnu.org/projects/bash/) -- The heartbeat of the
+  framework.
 - [Git](https://git-scm.com/) -- Version control and configuration distribution.
 - [Restic](https://restic.net/) -- Backups that are versioned, encrypted, and
   deduplicated.
