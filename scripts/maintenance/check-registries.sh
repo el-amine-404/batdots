@@ -64,7 +64,13 @@ checkreg::is_reachable() {
   if [[ $url == *.git ]]; then
     git ls-remote --exit-code -h "$url" > /dev/null 2>&1
   else
-    curl -fsSL -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --retry 2 --max-time 25 -o /dev/null "$url" 2> /dev/null
+    local status
+    status=$(curl -sL -o /dev/null -w "%{http_code}" -A "Mozilla/5.0 (Windows NT 10.0; Win64; x64)" --retry 2 --max-time 25 "$url" || true)
+    if [[ $status -ne 000 && $status -ne 404 && $status -ne 410 ]]; then
+      return 0
+    else
+      return 1
+    fi
   fi
 }
 
