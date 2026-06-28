@@ -48,3 +48,19 @@ QUARANTINE/
 
 # bulky, re-downloadable
 *.iso
+
+# docker volumes exclusions
+/mnt/docker-volumes/*/cache/
+/mnt/docker-volumes/*/log/
+/mnt/docker-volumes/*/logs/
+/mnt/docker-volumes/*/MediaCover/
+/mnt/docker-volumes/*/asp/
+/mnt/docker-volumes/*/Sentry/
+/mnt/docker-volumes/*/Backups/
+/mnt/docker-volumes/*/backups/
+/mnt/docker-volumes/*/backup/
+/mnt/docker-volumes/jellyfin/data/
+/mnt/docker-volumes/adguardhome/data/
+/mnt/docker-volumes/caddy/data/
+/mnt/docker-volumes/caddy/config/
+querylog.json*
