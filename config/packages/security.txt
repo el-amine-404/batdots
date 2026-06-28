@@ -4,6 +4,10 @@
 ufw
 gufw
 
+# automatic security updates
+unattended-upgrades
+apt-listchanges
+
 # intrusion detection
 fail2ban
 rkhunter
