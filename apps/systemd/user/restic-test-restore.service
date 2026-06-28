@@ -1,5 +1,6 @@
 [Unit]
 Description=restic monthly test restore (proves the restore path works)
+After=restic-backup.service restic-check.service
 
 [Service]
 Type=oneshot

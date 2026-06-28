@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# scripts/user/restic-check.sh -- Verify the integrity of every reachable repo in
-# DOTFILES_RESTIC_REPOS. Always checks structure + metadata; additionally re-reads
-# a rotating fraction of the actual pack data (DOTFILES_RESTIC_CHECK_SUBSET,
-# default 1/7) so the whole repo's bytes get re-verified for bit-rot over the
-# rotation period. Idempotent; intended for a weekly systemd timer.
-# A backup you never verify is a hope, not a backup.
+# Restic backup integrity checker.
 
 set -Eeuo pipefail
 
@@ -24,16 +19,20 @@ rc::require_env() {
   ((${#repos[@]})) || log::fatal "No repos -- set DOTFILES_RESTIC_REPOS (array) in local/env.sh"
 }
 
-# Returns 0 on a clean check, 2 when the repo has no backups yet (skip), 1 on a
-# real integrity failure.
 rc::check_repo() {
   local repo="$1"
   log::info "-> $repo"
   backup::use_repo "$repo"
 
-  if ! restic cat config > /dev/null 2>&1; then
+  local exit_code=0
+  restic cat config > /dev/null 2>&1 || exit_code=$?
+  if ((exit_code == 10)); then
     log::warn "Repo not initialized yet (no backups) -- skipping: $repo"
     return 2
+  elif ((exit_code != 0)); then
+    log::error "Failed to open repository: $repo (exit code ${exit_code})"
+    restic cat config > /dev/null
+    return 1
   fi
 
   if [[ ${DRY_RUN:-0} == 1 ]]; then
@@ -68,7 +67,6 @@ rc::run_all() {
 rc::report() {
   local summary="restic check on $(hostname): ${RC_OK} ok, ${RC_SKIPPED} skipped, ${RC_FAILED} failed"
   log::info "$summary"
-  # Only page on a real failure -- a clean check should be silent.
   [[ ${DRY_RUN:-0} == 1 ]] || ((RC_FAILED == 0)) \
     || notification::pushover "Backup integrity" "$summary" 2> /dev/null || true
   ((RC_FAILED == 0))

@@ -1,10 +1,5 @@
 #!/usr/bin/env bash
-# scripts/user/restic-test-restore.sh -- Prove the restore path actually works:
-# restore one sentinel file from the latest snapshot of the first reachable repo
-# into a temp dir and assert it comes back readable and non-empty. restic verifies
-# content hashes while restoring, so a clean restore is real proof the repo
-# decrypts and the data is intact. Idempotent; intended for a monthly systemd
-# timer. A backup you've never restored is a hope, not a backup.
+# Restic backup end-to-end restore verification.
 
 set -Eeuo pipefail
 
@@ -12,8 +7,7 @@ DOTFILES_ROOT="${DOTFILES_ROOT:-$(cd "$(dirname -- "$(readlink -f -- "${BASH_SOU
 # shellcheck source=/dev/null
 source "${DOTFILES_ROOT}/lib/bash-utilities.sh"
 
-# A file guaranteed to be in the backup set and present on disk: local/env.sh
-# lives under the backed-up local/ dir. Override only if you don't back up local/.
+# Sentinel file to verify (must exist locally and in the backup)
 TR_SENTINEL="${DOTFILES_RESTIC_TESTRESTORE_PATH:-${DOTFILES_ROOT}/local/env.sh}"
 
 tr::first_reachable_repo() {
@@ -36,10 +30,16 @@ tr::run() {
   log::info "Test-restoring from: $repo"
   backup::use_repo "$repo"
 
-  restic cat config > /dev/null 2>&1 || {
+  local exit_code=0
+  restic cat config > /dev/null 2>&1 || exit_code=$?
+  if ((exit_code == 10)); then
     log::warn "Repo not initialized yet (no backups) -- skipping."
     return 0
-  }
+  elif ((exit_code != 0)); then
+    log::error "Failed to open repository: $repo (exit code ${exit_code})"
+    restic cat config > /dev/null
+    return 1
+  fi
   [[ -e $TR_SENTINEL ]] || log::fatal "Sentinel path does not exist locally: $TR_SENTINEL"
 
   if [[ ${DRY_RUN:-0} == 1 ]]; then
@@ -52,8 +52,6 @@ tr::run() {
   # shellcheck disable=SC2064
   trap "rm -f '${out}'" RETURN
 
-  # dump reads, decrypts and content-hash-verifies the file straight out of the
-  # repo -- a clean dump is proof the snapshot is intact and recoverable.
   restic dump latest "$TR_SENTINEL" > "$out" 2> /dev/null || return 1
   [[ -s $out ]] || {
     log::error "Restored sentinel is empty: $TR_SENTINEL"

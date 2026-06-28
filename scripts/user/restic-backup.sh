@@ -1,8 +1,5 @@
 #!/usr/bin/env bash
-# scripts/user/restic-backup.sh -- Snapshot DOTFILES_RESTIC_BACKUP_PATHS into every
-# repo in DOTFILES_RESTIC_REPOS (versioned, encrypted, deduplicated), then prune
-# per the retention policy. Unreachable repos (e.g. the USB stick not plugged in)
-# are skipped, not failed. Idempotent; intended for a nightly systemd timer.
+# Restic backup runner.
 
 set -Eeuo pipefail
 

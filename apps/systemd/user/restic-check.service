@@ -1,5 +1,6 @@
 [Unit]
 Description=restic repository integrity check (structure + rotating data subset)
+After=restic-backup.service
 
 [Service]
 Type=oneshot
