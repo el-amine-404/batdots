@@ -8,7 +8,6 @@ font_noto_emoji
 font_roboto
 font_inter
 font_firacode
-font_cascadia
 font_liberation
 font_ancient
 font_recommended

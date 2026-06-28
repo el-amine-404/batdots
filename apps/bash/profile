@@ -18,3 +18,6 @@ if [[ -n "$BASH_VERSION" && -r "$HOME/.bashrc" ]]; then
 fi
 
 # Ensure the shell starts with a clean exit status
+
+
+export PATH="/home/amine/.local/bin:$PATH"

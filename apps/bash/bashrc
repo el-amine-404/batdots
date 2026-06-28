@@ -22,3 +22,6 @@ esac
 # (Now handled automatically by lib/bash-utilities.sh)
 
 # Ensure the shell starts with a clean exit status
+
+
+export PATH="/home/amine/.local/bin:$PATH"

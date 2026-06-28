@@ -15,6 +15,8 @@ source "${DOTFILES_ROOT}/lib/bash-utilities.sh"
 # shellcheck source=/dev/null
 source "${DOTFILES_ROOT}/bin/linker.sh"
 # shellcheck source=/dev/null
+source "${DOTFILES_ROOT}/bin/packages.sh"
+# shellcheck source=/dev/null
 source "${DOTFILES_ROOT}/config/versions.conf"
 
 trap 'log::warn "Interrupted. Exiting..."; exit 130' SIGINT
@@ -28,13 +30,14 @@ declare -A DOCTOR_RESULTS
 # Single source of truth: ordered check names -> their functions. The summary,
 # the JSON, and execution all read this, so they can never drift apart.
 declare -a DOCTOR_CHECKS=(
-  env symlinks path commands versions permissions env_paths orphans timers wallpaper
+  env symlinks path commands availability versions permissions env_paths orphans timers wallpaper
 )
 declare -A DOCTOR_FN=(
   [env]=doctor::check_env
   [symlinks]=doctor::check_symlinks
   [path]=doctor::check_path
   [commands]=doctor::check_commands
+  [availability]=doctor::check_availability
   [versions]=doctor::check_versions
   [permissions]=doctor::check_permissions
   [env_paths]=doctor::check_env_paths
@@ -65,6 +68,7 @@ Checks:
   - symlinks   symlink integrity per profile (--fix repairs)
   - path       PATH entries that don't exist on disk
   - commands   critical command dependencies
+  - availability mapped packages have an install candidate on this distro
   - versions   installed vs pinned version per registry component (offline)
   - permissions secret files (restic_pass, ssh_config) are 0600
   - env_paths  DOTFILES_* path values in env.sh actually exist
@@ -186,6 +190,46 @@ doctor::check_commands() {
   DOCTOR_RESULTS["commands"]="fail"
   log::error "  (fail) missing core commands: ${missing[*]}"
   return 1
+}
+
+# -- check: package availability (map gaps for this distro) ------------------
+doctor::check_availability() {
+  log::info "Checking package availability for this distro..."
+
+  if [[ -z ${PACKAGES+x} || ${#PACKAGES[@]} -eq 0 ]]; then
+    log::info "  (ok) profile declares no package groups -- skipping"
+    DOCTOR_RESULTS["availability"]="ok"
+    return 0
+  fi
+
+  local native
+  if ! native=$(packages::detect_native_package_manager 2> /dev/null); then
+    log::info "  (ok) no native package manager mapped -- skipping"
+    DOCTOR_RESULTS["availability"]="ok"
+    return 0
+  fi
+
+  packages::_build_queues "$native" "${PACKAGES[@]}"
+
+  local rows
+  rows=$(packages::collect_unavailable)
+  if [[ -z $rows ]]; then
+    log::info "  (ok) every mapped package is installable here"
+    DOCTOR_RESULTS["availability"]="ok"
+    return 0
+  fi
+
+  local count manager pkg
+  count=$(grep -c . <<< "$rows")
+  log::warn "  (warn) $count mapped package(s) have no install candidate on this distro:"
+  while IFS=$'\t' read -r manager pkg; do
+    [[ -z $manager ]] && continue
+    log::warn "      - ${pkg} (${manager})"
+  done <<< "$rows"
+  log::warn "         Bootstrap would abort on these. Fix the name in"
+  log::warn "         config/package-managers/<mgr>.<distro>[.<codename>].conf, or open a PR."
+  DOCTOR_RESULTS["availability"]="warn"
+  return 2
 }
 
 # -- check: version drift (installed vs pinned, offline) ---------------------

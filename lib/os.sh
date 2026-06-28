@@ -22,6 +22,10 @@ os::get_distribution_id_like() {
   file::get_config_value /etc/os-release ID_LIKE
 }
 
+os::get_distribution_codename() {
+  file::get_config_value /etc/os-release VERSION_CODENAME
+}
+
 # Pick sudo or doas, refresh the credential cache, and export SUDO_CMD for
 # downstream scripts. Refuses to continue if no escalation tool exists.
 os::detect_privilege_tool() {
