@@ -10,6 +10,7 @@ DOTFILES_ROOT="${DOTFILES_ROOT:-$(cd "$(dirname -- "$(readlink -f -- "${BASH_SOU
 source "${DOTFILES_ROOT}/lib/bash-utilities.sh"
 
 declare -a CHECKREG_TARGETS=()
+declare -a CHECKREG_DEAD_LIST=()
 CHECKREG_OK=0
 CHECKREG_DEAD=0
 
@@ -68,13 +69,14 @@ checkreg::is_reachable() {
 }
 
 checkreg::check_url() {
-  local url="$1" origin="$2"
+  local url="$1" origin="$2" line_num="$3" col="$4"
   if checkreg::is_reachable "$url"; then
     CHECKREG_OK=$((CHECKREG_OK + 1))
-    log::debug "OK   $origin -> $url"
+    log::debug "OK   $origin:$line_num:$col -> $url"
   else
     CHECKREG_DEAD=$((CHECKREG_DEAD + 1))
-    log::error "DEAD $origin -> $url"
+    log::error "DEAD $origin:$line_num:$col -> $url"
+    CHECKREG_DEAD_LIST+=("${origin}|${line_num}|${col}|${url}")
   fi
 }
 
@@ -82,13 +84,32 @@ checkreg::check_file() {
   local file="$1"
   registry::require "$file" || return 0
   local origin="${file#"${DOTFILES_ROOT}/"}"
+  local line_num=0
+  local line trimmed i value
   local -a fields
-  local value
-  while IFS='|' read -ra fields; do
-    for value in "${fields[@]}"; do
-      checkreg::is_url "$value" && checkreg::check_url "$value" "$origin"
+  while IFS= read -r line || [[ -n $line ]]; do
+    ((++line_num))
+    trimmed=$(string::trim "$line")
+    [[ -z $trimmed || $trimmed == '#'* ]] && continue
+
+    IFS='|' read -ra fields <<< "$line"
+    for i in "${!fields[@]}"; do
+      value=$(string::trim "${fields[i]}")
+      if checkreg::is_url "$value"; then
+        local col=1
+        local j
+        for ((j = 0; j < i; j++)); do
+          col=$((col + ${#fields[j]} + 1))
+        done
+        local raw_field="${fields[i]}"
+        local trimmed_leading="${raw_field#"${raw_field%%[![:space:]]*}"}"
+        local leading_ws_len=$((${#raw_field} - ${#trimmed_leading}))
+        col=$((col + leading_ws_len))
+
+        checkreg::check_url "$value" "$origin" "$line_num" "$col"
+      fi
     done
-  done < <(registry::stream "$file")
+  done < "$file"
 }
 
 checkreg::check_all() {
@@ -100,12 +121,25 @@ checkreg::check_all() {
 
 checkreg::report() {
   log::info "Checked -- ${CHECKREG_OK} reachable, ${CHECKREG_DEAD} dead."
+  if ((CHECKREG_DEAD > 0)); then
+    echo "# Dead Registry URLs Detected"
+    echo ""
+    echo "The following dead URLs were found in the registry files:"
+    echo ""
+    echo "| File | Line | Column | URL |"
+    echo "| :--- | :--- | :--- | :--- |"
+    local entry file line col url
+    for entry in "${CHECKREG_DEAD_LIST[@]}"; do
+      IFS='|' read -r file line col url <<< "$entry"
+      echo "| ${file} | ${line} | ${col} | ${url} |"
+    done
+  fi
   ((CHECKREG_DEAD == 0))
 }
 
 main() {
   checkreg::parse_args "$@"
-  banner::print "registries"
+  banner::print "registries" >&2
   checkreg::resolve_targets
   checkreg::check_all
   checkreg::report

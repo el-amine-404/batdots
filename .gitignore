@@ -4,6 +4,7 @@
 *.zip
 build/
 dist/
+registry-report.txt
 
 # Editors / IDEs
 .idea/
