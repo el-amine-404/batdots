@@ -46,6 +46,11 @@ VT_API_KEY="${DOTFILES_MEDIA_SCAN_VT_API_KEY:-}"
 VT_THRESHOLD="${DOTFILES_MEDIA_SCAN_VT_THRESHOLD:-3}"
 VT_MAX_LOOKUPS="${DOTFILES_MEDIA_SCAN_VT_MAX_LOOKUPS:-400}"
 VT_SLEEP="${DOTFILES_MEDIA_SCAN_VT_SLEEP:-16}"
+# Only hash files below this. VirusTotal is valuable for small carriers -- an
+# executable, script, archive or subtitle that slipped through -- and useless
+# for multi-GB video: hashing is slow and no one has ever submitted your rips,
+# so every lookup returns 404 and spends quota to learn nothing.
+VT_MAX_BYTES="${DOTFILES_MEDIA_SCAN_VT_MAX_BYTES:-134217728}" # 128 MiB
 
 # Subtitles are untrusted input parsed by complex code (libass, ffmpeg) and are
 # waved through by both the extension and MIME checks -- they need their own.
@@ -181,6 +186,10 @@ ms::vt_check() {
   ((VT_USED >= VT_MAX_LOOKUPS)) && return 0
   command -v curl > /dev/null 2>&1 || return 0
   command -v jq > /dev/null 2>&1 || return 0
+
+  local size
+  size=$(stat -c%s -- "$file" 2> /dev/null || echo 0)
+  ((size > VT_MAX_BYTES)) && return 0
 
   sha=$(sha256sum -- "$file" 2> /dev/null | cut -d\  -f1)
   [[ -z $sha ]] && return 0
