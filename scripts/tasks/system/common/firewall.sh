@@ -31,7 +31,9 @@ PUB_TCP_PORTS=(80 443)
 PUB_UDP_PORTS=(443) # HTTP/3 (QUIC)
 # Reachable from the LAN only -- host-network services.
 LAN_TCP_PORTS=(53 3000 19999) # AdGuard DNS/TCP, AdGuard UI, Netdata
-LAN_UDP_PORTS=(53)            # AdGuard DNS/UDP
+# 67 is the DHCP server port: when AdGuard serves DHCP, dropping it leaves every
+# device on the LAN unable to get a lease.
+LAN_UDP_PORTS=(53 67) # AdGuard DNS/UDP, AdGuard DHCP
 
 fw::ufw() {
   if [[ ${DRY_RUN:-0} -eq 1 ]]; then
