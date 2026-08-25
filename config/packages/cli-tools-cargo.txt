@@ -1,0 +1,7 @@
+# Same set as cli-tools.txt, built from crates.io for newer versions.
+# Requires the 'rust' system task; do not combine with cli-tools.txt.
+bat:cargo
+ripgrep:cargo
+fd-find:cargo
+eza:cargo
+du-dust:cargo

@@ -47,3 +47,6 @@ xbindkeys
 xbindkeys-config
 xvkbd
 xxkb
+software-properties-gtk
+zenity
+xclip

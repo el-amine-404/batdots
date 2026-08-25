@@ -12,16 +12,10 @@ file
 findutils
 util-linux
 coreutils
-software-properties-gtk
 apt-transport-https
 build-essential
 
 # modern replacements
-bat:cargo
-ripgrep:cargo
-fd-find:cargo
-eza:cargo
-du-dust:cargo
 
 # editors
 nano
@@ -52,7 +46,5 @@ pax
 jq
 shellcheck
 dialog
-zenity
-xclip
 ncal
 inotify-tools

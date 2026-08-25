@@ -1,0 +1,7 @@
+# Modern CLI replacements, installed with the distro's native manager.
+# Profiles that would rather build newer versions use cli-tools-cargo.txt.
+bat
+ripgrep
+fd-find
+eza
+du-dust
