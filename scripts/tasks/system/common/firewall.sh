@@ -94,7 +94,28 @@ fw::apply() {
   done
 }
 
+# ufw ships DEFAULT_FORWARD_POLICY="DROP", which sets the kernel FORWARD chain to
+# DROP. Host traffic uses OUTPUT and is unaffected, but every Docker bridge
+# network is forwarded -- so containers silently lose all egress the moment ufw
+# is enabled. Container-level access control still belongs to Docker's
+# DOCKER-USER chain; this only stops ufw from black-holing the whole bridge.
+fw::allow_docker_forwarding() {
+  local file="/etc/default/ufw"
+  [[ -f $file ]] || return 0
+  grep -q '^DEFAULT_FORWARD_POLICY="ACCEPT"' "$file" && {
+    log::info "  Forward policy already ACCEPT (Docker bridges can reach the network)."
+    return 0
+  }
+  if [[ ${DRY_RUN:-0} -eq 1 ]]; then
+    log::info "  [DRY RUN] Would set DEFAULT_FORWARD_POLICY=\"ACCEPT\" in ${file}"
+    return 0
+  fi
+  log::info "  Setting DEFAULT_FORWARD_POLICY=ACCEPT so Docker bridges keep egress..."
+  $SUDO_CMD sed -i 's/^DEFAULT_FORWARD_POLICY=.*/DEFAULT_FORWARD_POLICY="ACCEPT"/' "$file"
+}
+
 fw::enable() {
+  fw::allow_docker_forwarding
   log::info "Enabling ufw..."
   fw::ufw --force enable
   fw::ufw logging low
