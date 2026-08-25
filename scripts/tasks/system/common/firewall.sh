@@ -31,9 +31,11 @@ PUB_TCP_PORTS=(80 443)
 PUB_UDP_PORTS=(443) # HTTP/3 (QUIC)
 # Reachable from the LAN only -- host-network services.
 LAN_TCP_PORTS=(53 3000 19999) # AdGuard DNS/TCP, AdGuard UI, Netdata
-# 67 is the DHCP server port: when AdGuard serves DHCP, dropping it leaves every
-# device on the LAN unable to get a lease.
-LAN_UDP_PORTS=(53 67) # AdGuard DNS/UDP, AdGuard DHCP
+LAN_UDP_PORTS=(53)            # AdGuard DNS/UDP
+# DHCP cannot be source-filtered: a client without a lease sends from 0.0.0.0 to
+# the 255.255.255.255 broadcast, so a "from <lan cidr>" rule never matches it.
+# It has to be allowed unscoped or every device fails to get an address.
+BROADCAST_UDP_PORTS=(67) # AdGuard DHCP
 
 fw::ufw() {
   if [[ ${DRY_RUN:-0} -eq 1 ]]; then
@@ -72,6 +74,13 @@ fw::apply() {
   for p in "${PUB_UDP_PORTS[@]}"; do
     fw::ufw allow "${p}/udp" comment 'Caddy HTTP/3'
   done
+
+  if ((${#BROADCAST_UDP_PORTS[@]})); then
+    log::info "  Allowing broadcast services (DHCP) unscoped..."
+    for p in "${BROADCAST_UDP_PORTS[@]}"; do
+      fw::ufw allow "${p}/udp" comment 'Broadcast service (DHCP)'
+    done
+  fi
 
   log::info "  Allowing host-network services from LAN: ${LAN_CIDRS[*]}..."
   local cidr
