@@ -15,6 +15,17 @@ else
   log::fatal "Cannot detect OS: /etc/os-release missing."
 fi
 
+# Removing a working Docker before the new repo is proven leaves the machine with
+# no container runtime if any later step fails -- which is exactly what happened.
+docker::already_current() {
+  # Debian ships "docker.io"; only the official repo ships "docker-ce", so the
+  # installed package name is what proves the source. A docker binary or a
+  # leftover docker.list proves nothing -- both survive a failed install.
+  dpkg -s docker-ce > /dev/null 2>&1 || return 1
+  dpkg -s docker-compose-plugin > /dev/null 2>&1 || return 1
+  docker compose version > /dev/null 2>&1
+}
+
 clean_old_versions() {
   log::info "Step 1/4: Cleaning old Docker versions..."
 
@@ -31,6 +42,7 @@ clean_old_versions() {
     $SUDO_CMD apt-get -yq purge "$pkg" > /dev/null || true
   done
 
+  log::warn "  This DELETES /var/lib/docker -- every image is re-pulled afterwards."
   log::info "Removing residual config and data files..."
   # delete all images, containers, and volumes (for a clean install)
   # (if you care about your images you must host them to docker hub)
@@ -137,6 +149,14 @@ configure_system() {
 # EXECUTION FLOW
 # ==============================================================================
 
+if docker::already_current; then
+  log::info "Docker is already installed from the official repo -- nothing to do."
+  exit 0
+fi
+
+# clean_old_versions deletes the repo file and keyring, so it has to run before
+# setup_repository, not after. The guard above is what protects a working
+# install -- this order only ever runs on a machine that needs a fresh one.
 clean_old_versions
 setup_repository
 install_packages

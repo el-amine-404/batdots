@@ -37,7 +37,10 @@ installer::apt::add_key() {
 
   local tmp
   tmp=$(mktemp)
-  trap 'rm -f "$tmp"' RETURN
+  # ${tmp:-} guard: a RETURN trap is inherited by the calling function under
+  # functrace, where this local is out of scope -- bare "$tmp" then aborts the
+  # whole task via set -u, after the caller has already removed the old package.
+  trap 'rm -f "${tmp:-}"' RETURN
 
   log::info "Fetching key: $name"
   if ! curl -fsSL "$url" -o "$tmp"; then
