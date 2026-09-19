@@ -49,50 +49,114 @@ md() {
   [[ -f README.md ]] || printf '# TITLE GOES HERE, ENJOY YOUR MARKDOWN!!\n' > README.md
 }
 
-# QR code -> terminal (UTF-8 ANSI render).
-qrt() {
-  [[ -z "$1" ]] && {
-    echo "Usage: qrt 'your text here'" >&2
+# Text for qrt/qri: args if given, else piped stdin, else a hidden prompt.
+# Args are expanded by the shell *before* the function runs ("p$$za" becomes
+# "p<PID>za"), so for secrets use the prompt (or single quotes): nothing typed
+# at the prompt is expanded.
+_qr_text() {
+  local -n _out=$1
+  shift
+  if (($#)); then
+    _out="$*"
+  elif [[ ! -t 0 ]]; then
+    _out=$(cat)
+  else
+    read -rsp "Text to encode (hidden): " _out
+    echo >&2
+  fi
+  [[ -n $_out ]] || {
+    echo "qr: empty text" >&2
     return 1
   }
+}
+
+# QR code -> terminal (UTF-8 ANSI render).
+# Usage: qrt 'text' | qrt (prompt) | cmd | qrt
+qrt() {
   cmd::has qrencode || {
     echo "qrencode not installed" >&2
     return 1
   }
-  qrencode -t ANSIUTF8 "$*"
+  local text
+  _qr_text text "$@" || return 1
+  qrencode -t ANSIUTF8 -- "$text"
 }
 
 # QR code -> image, opened with xdg-open, securely shredded after.
+# Usage: qri 'text' | qri (prompt) | cmd | qri
 qri() {
-  [[ -z "$1" ]] && {
-    echo "Usage: qri 'your text here'" >&2
-    return 1
-  }
-  cmd::has qrencode || {
-    echo "qrencode not installed" >&2
-    return 1
-  }
-  cmd::has xdg-open || {
-    echo "xdg-open not installed" >&2
-    return 1
-  }
-  cmd::has shred || {
-    echo "shred not installed" >&2
-    return 1
-  }
-
-  local img
+  local c
+  for c in qrencode xdg-open shred; do
+    cmd::has "$c" || {
+      echo "$c not installed" >&2
+      return 1
+    }
+  done
+  local text img
+  _qr_text text "$@" || return 1
   img=$(mktemp /tmp/qr-XXXXXX.png) || return 1
-  # Always clean up, even if the user Ctrl+C's.
-  trap 'shred -u "$img" 2>/dev/null; trap - INT TERM EXIT' INT TERM EXIT
-
-  qrencode -o "$img" "$*"
-  xdg-open "$img" > /dev/null 2>&1 &
-  read -rp "Press [Enter] when done -- file will be securely shredded... "
-  shred -u "$img"
-  trap - INT TERM EXIT
-  echo "removed: $img"
+  # Always clean up, even on Ctrl+C. Subshell so the trap can't leak into
+  # the interactive shell (where EXIT would fire at logout with $img unset).
+  (
+    trap 'shred -u "$img" 2>/dev/null; echo; echo "removed: $img"; exit 130' INT TERM
+    qrencode -o "$img" -- "$text" || {
+      shred -u "$img"
+      exit 1
+    }
+    xdg-open "$img" > /dev/null 2>&1 &
+    # Text may have come from a pipe; take the keypress from the terminal.
+    [[ -t 0 ]] || exec < /dev/tty
+    read -rp "Press [Enter] when done -- file will be securely shredded... "
+    shred -u "$img"
+    echo "removed: $img"
+  )
 }
+
+# Make `qri p$$za` and `qri "p$$za"` encode the text literally. The alias
+# turns the rest of the line into a comment, so bash expands nothing, and
+# _qr_literal re-reads the raw line from history. Trade-offs: $VARS are never
+# expanded (use `\qri "$VAR"` for that) and the qr command must be alone on
+# its line. When the line isn't in history (history off, leading space with
+# ignorespace), it falls back to the hidden prompt instead of guessing.
+_qr_literal() {
+  local fn=$1 entry ts line text
+  # Piped input (`cmd | qri`): nothing on the line to read.
+  [[ -t 0 ]] || {
+    "$fn"
+    return
+  }
+  # Trust the newest history entry only if it was typed after the last
+  # prompt; otherwise it's an older command, not this one.
+  if [[ -o history ]]; then
+    entry=$(HISTTIMEFORMAT='%s ' history 1)
+    [[ $entry =~ ^[[:space:]]*[0-9]+\*?[[:space:]]+([0-9]+)\ (.*)$ ]] && {
+      ts=${BASH_REMATCH[1]}
+      line=${BASH_REMATCH[2]}
+    }
+  fi
+  if [[ -z $line ]] || ((ts <= ${_qr_prompt_ts:-0})) \
+    || [[ $line != "$fn" && $line != "$fn"[[:space:]]* ]]; then
+    echo "$fn: can't read the typed line from history, enter it instead" >&2
+    "$fn"
+    return
+  fi
+  text=${line#"$fn"}
+  text=${text#"${text%%[![:space:]]*}"}
+  text=${text%"${text##*[![:space:]]}"}
+  # Drop one pair of surrounding quotes, keeping the inside as-is.
+  if [[ ${#text} -ge 2 && ($text == \'*\' || $text == \"*\") ]]; then
+    text=${text:1:-1}
+  fi
+  if [[ -n $text ]]; then
+    "$fn" "$text"
+  else
+    "$fn"
+  fi
+}
+alias qri='_qr_literal qri #'
+alias qrt='_qr_literal qrt #'
+# Stamp each prompt so _qr_literal can tell a fresh history entry from a stale one.
+PROMPT_COMMAND="_qr_prompt_ts=\$EPOCHSECONDS${PROMPT_COMMAND:+; $PROMPT_COMMAND}"
 
 # Print a slim PATH listing, one entry per line.
 paths() { tr ':' '\n' <<< "$PATH"; }
