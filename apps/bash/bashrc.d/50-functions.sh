@@ -49,49 +49,67 @@ md() {
   [[ -f README.md ]] || printf '# TITLE GOES HERE, ENJOY YOUR MARKDOWN!!\n' > README.md
 }
 
-# QR code -> terminal (UTF-8 ANSI render).
-qrt() {
-  [[ -z "$1" ]] && {
-    echo "Usage: qrt 'your text here'" >&2
+# Text for qrt/qri: args if given, else piped stdin, else a hidden prompt.
+# Args are expanded by the shell *before* the function runs ("p$$za" becomes
+# "p<PID>za"), so for secrets use the prompt (or single quotes): nothing typed
+# at the prompt is expanded.
+_qr_text() {
+  local -n _out=$1
+  shift
+  if (($#)); then
+    _out="$*"
+  elif [[ ! -t 0 ]]; then
+    _out=$(cat)
+  else
+    read -rsp "Text to encode (hidden): " _out
+    echo >&2
+  fi
+  [[ -n $_out ]] || {
+    echo "qr: empty text" >&2
     return 1
   }
+}
+
+# QR code -> terminal (UTF-8 ANSI render).
+# Usage: qrt 'text' | qrt (prompt) | cmd | qrt
+qrt() {
   cmd::has qrencode || {
     echo "qrencode not installed" >&2
     return 1
   }
-  qrencode -t ANSIUTF8 "$*"
+  local text
+  _qr_text text "$@" || return 1
+  qrencode -t ANSIUTF8 -- "$text"
 }
 
 # QR code -> image, opened with xdg-open, securely shredded after.
+# Usage: qri 'text' | qri (prompt) | cmd | qri
 qri() {
-  [[ -z "$1" ]] && {
-    echo "Usage: qri 'your text here'" >&2
-    return 1
-  }
-  cmd::has qrencode || {
-    echo "qrencode not installed" >&2
-    return 1
-  }
-  cmd::has xdg-open || {
-    echo "xdg-open not installed" >&2
-    return 1
-  }
-  cmd::has shred || {
-    echo "shred not installed" >&2
-    return 1
-  }
-
-  local img
+  local c
+  for c in qrencode xdg-open shred; do
+    cmd::has "$c" || {
+      echo "$c not installed" >&2
+      return 1
+    }
+  done
+  local text img
+  _qr_text text "$@" || return 1
   img=$(mktemp /tmp/qr-XXXXXX.png) || return 1
-  # Always clean up, even if the user Ctrl+C's.
-  trap 'shred -u "$img" 2>/dev/null; trap - INT TERM EXIT' INT TERM EXIT
-
-  qrencode -o "$img" "$*"
-  xdg-open "$img" > /dev/null 2>&1 &
-  read -rp "Press [Enter] when done -- file will be securely shredded... "
-  shred -u "$img"
-  trap - INT TERM EXIT
-  echo "removed: $img"
+  # Always clean up, even on Ctrl+C. Subshell so the trap can't leak into
+  # the interactive shell (where EXIT would fire at logout with $img unset).
+  (
+    trap 'shred -u "$img" 2>/dev/null; echo; echo "removed: $img"; exit 130' INT TERM
+    qrencode -o "$img" -- "$text" || {
+      shred -u "$img"
+      exit 1
+    }
+    xdg-open "$img" > /dev/null 2>&1 &
+    # Text may have come from a pipe; take the keypress from the terminal.
+    [[ -t 0 ]] || exec < /dev/tty
+    read -rp "Press [Enter] when done -- file will be securely shredded... "
+    shred -u "$img"
+    echo "removed: $img"
+  )
 }
 
 # Print a slim PATH listing, one entry per line.
