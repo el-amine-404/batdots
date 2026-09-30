@@ -25,10 +25,8 @@
     "OverrideFirstRunPage": "",
     "OverridePostUpdatePage": "",
     "DNSOverHTTPS": {
-      "Enabled": true,
-      "ProviderURL": "https://security.cloudflare-dns.com/dns-query",
-      "Locked": true,
-      "Fallback": false
+      "Enabled": false,
+      "Locked": false
     },
     "Permissions": {
       "Camera": {
@@ -73,10 +71,6 @@
       "Locked": true
     },
     "ExtensionSettings": {
-      "*": {
-        "installation_mode": "blocked",
-        "blocked_install_message": "Extensions are disabled by system policy."
-      },
       "uBlock0@raymondhill.net": {
         "installation_mode": "force_installed",
         "install_url": "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi",

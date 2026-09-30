@@ -75,15 +75,12 @@
       "url": "https://www.die.net/search/?q={searchTerms}"
     }
   ],
-  "ExtensionInstallBlocklist": ["*"],
   "ExtensionInstallForcelist": [
     "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx",
     "ddkjiahejlhfcafbddmgiahcphecmpfh;https://clients2.google.com/service/update2/crx"
   ],
   "IncognitoModeAvailability": 0,
   "_comment_network": "=== NETWORK SECURITY ===",
-  "DNSOverHttpsMode": "secure",
-  "DNSOverHttpsTemplates": "https://dns.quad9.net/dns-query",
   "WPADQuickCheckEnabled": false,
   "EnableMediaRouter": false,
   "WebRtcUdpPortRange": "10000-12000",
