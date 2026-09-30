@@ -76,8 +76,8 @@
     }
   ],
   "ExtensionInstallForcelist": [
-    "nngceckbapebfimnlniiiahkandclblb;https://clients2.google.com/service/update2/crx",
-    "ddkjiahejlhfcafbddmgiahcphecmpfh;https://clients2.google.com/service/update2/crx"
+    "ddkjiahejlhfcafbddmgiahcphecmpfh;https://clients2.google.com/service/update2/crx",
+    "jinjaccalgkegednnccohejagnlnfdag;https://clients2.google.com/service/update2/crx"
   ],
   "IncognitoModeAvailability": 0,
   "_comment_network": "=== NETWORK SECURITY ===",
